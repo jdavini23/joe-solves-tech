@@ -1,0 +1,34 @@
+/* ==========================================================================
+   How it works — bobbing icons
+   ========================================================================== */
+.steps{
+  display:grid; gap:var(--space-8);
+  margin-top:var(--space-9);
+  counter-reset:step;
+}
+@media (min-width:760px){ .steps{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--space-8); } }
+.step{
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+  transition:transform var(--t), box-shadow var(--t);
+}
+.step:hover{ transform:translateY(-4px); box-shadow:inset 0 1px 0 #FFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float); }
+.step__icon{
+  width:54px; height:54px;
+  display:grid; place-items:center;
+  border-radius:var(--r-lg);
+  background:var(--accent-soft); color:var(--accent);
+  will-change:transform;
+  animation:bob 4.4s ease-in-out infinite alternate;
+}
+.step:nth-child(2) .step__icon{ animation-duration:5.2s; animation-delay:-1.4s; }
+.step:nth-child(3) .step__icon{ animation-duration:4.8s; animation-delay:-2.6s; }
+@keyframes bob{
+  from{ transform:translate3d(0,0,0); }
+  to  { transform:translate3d(0,-7px,0); }
+}
+.step__no{ margin-top:var(--space-6); font-size:var(--t-meta); font-weight:600; letter-spacing:0.08em; color:var(--accent); }
+.step h3{ margin-top:var(--space-3); }
+.step p{ margin-top:var(--space-4); font-size:var(--t-body); line-height:1.5; color:var(--ink-75); text-wrap:pretty; }

@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Work grid
+   ========================================================================== */
+.grid{
+  display:grid; gap:var(--space-8);
+  margin-top:var(--space-9);
+}
+@media (min-width:700px){ .grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1000px){ .grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+
+.card{
+  display:flex; flex-direction:column;
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+  transition:transform var(--t), box-shadow var(--t);
+}
+@media (min-width:700px){ .card,.step{ padding:var(--space-8); } }
+.card:hover,.card:focus-within{
+  transform:translateY(-4px);
+  box-shadow:inset 0 1px 0 #FFFFFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float);
+}
+.card__media{
+  border-radius:var(--r-md);
+  overflow:hidden;
+  background:linear-gradient(160deg,var(--n-50) 0%,var(--n-50) 100%);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+.card__media svg{ width:100%; height:auto; }
+.card__top{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-4);
+  margin-top:var(--space-6);
+}
+.card__no{ font-size:var(--t-meta); font-weight:600; color:var(--accent); letter-spacing:0.04em; }
+.badge{
+  padding:var(--space-2) var(--space-3);
+  border-radius:var(--r-full);
+  background:var(--ink-10); color:var(--ink-60);
+  font-size:var(--t-meta); font-weight:500; letter-spacing:-0.01em;
+}
+.card h3{ margin-top:var(--space-4); }
+.card__body{ margin-top:var(--space-4); font-size:var(--t-body); color:var(--ink-75); line-height:1.5; }
+.tags{
+  display:flex; flex-wrap:wrap; gap:var(--space-3);
+  margin-top:var(--space-6); margin-bottom:var(--space-6);
+}
+.tag{
+  padding:var(--space-2) var(--space-4);
+  border-radius:var(--r-full);
+  background:var(--accent-soft); color:var(--accent);
+  font-size:var(--t-meta); font-weight:500;
+}
+.card__link{
+  display:inline-flex; align-items:center; gap:var(--space-3);
+  margin-top:auto; padding-top:var(--space-6);
+  border-top:1px solid var(--ink-10);
+  font-size:var(--t-label); font-weight:600; color:var(--accent);
+}
+.card__link svg{ transition:transform var(--t); }
+.card:hover .card__link svg{ transform:translateX(3px); }

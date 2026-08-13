@@ -4,61 +4,54 @@ Landing page for an AI and no-code consulting practice for small businesses.
 
 **Live:** https://joe-solves-tech.vercel.app
 
-## What's here
+## Working on the site
 
-| File | What it is |
+The site is dependency-free and assembled by a small Node build script. Edit the
+HTML in `src/sections/` and `src/partials/`, styles in `src/styles/`, and
+progressive enhancements in `src/scripts/`.
+
+```bash
+npm run dev    # build, watch source files, and serve http://localhost:8000
+npm run build  # create the production site in dist/
+npm test       # verify the build, links, modules, and development routes
+```
+
+The comparison viewer is available at http://localhost:8000/compare/ while the
+development server is running. It compares the preserved original design with
+the latest generated site.
+
+## Project structure
+
+| Path | Purpose |
 |---|---|
-| `joe-solves-tech.html` | The site. One self-contained file. |
-| `joe-solves-tech-before.html` | The version before the design pass, kept for comparison. |
-| `compare.html` | Side-by-side viewer for the two, with synced scrolling. |
-| `.claude/serve.js` | Small static server for local preview. |
-| `.claude/launch.json` | Dev server config. Paths are machine-specific. |
+| `src/index.html` | Document shell and ordered section includes |
+| `src/sections/` | Editable page content, one business section per file |
+| `src/partials/` | Navigation, footer, sticky CTA, and offer reminder |
+| `src/styles/` | Ordered stylesheet modules concatenated during builds |
+| `src/scripts/` | Native ES modules for progressive enhancements |
+| `scripts/` | Dependency-free build and local development server |
+| `tools/compare/` | Development-only before/after viewer and old snapshot |
+| `dist/` | Generated deployment output; intentionally ignored by Git |
 
-## Running it locally
+## Design and resilience constraints
 
-```bash
-node .claude/serve.js
-```
+The five-color design system, type scale, and spacing scale live in
+`src/styles/01-tokens.css`. The page remains usable without JavaScript,
+respects `prefers-reduced-motion`, avoids external JavaScript libraries, and
+keeps authored values visible when animation features are unavailable.
 
-Then open http://localhost:8000. The `compare.html` viewer needs to be served
-over HTTP rather than opened from disk — it reads into both frames to sync
-their scrolling, which browsers block for `file://` pages.
+The repository lives beside private notes, so `.gitignore` intentionally
+ignores everything except the explicitly public source and tooling directories.
+Treat any newly allowlisted directory as public.
 
-## How it's built
+## Deployment
 
-No build step, no dependencies, no framework. One HTML file with inline CSS and
-JavaScript. The only external resources are Google Fonts and a hero photograph
-from Unsplash, and the page still renders if either fails to load.
-
-**Design system.** Five colours, and everything else is derived from them:
-
-| Token | Value | Role |
-|---|---|---|
-| `--ink` | `#000000` | text |
-| `--bg` | `#F7F7F7` | ground |
-| `--accent` | `#007AFF` | links and calls to action |
-| `--violet` | `#5566F5` | brand gradient, head |
-| `--rose` | `#E0A6C6` | brand gradient, tail |
-
-Type runs on a six-step scale. Spacing follows a 2px-based scale
-(2 · 4 · 6 · 10 · 12 · 16 · 20 · 40 · 60 · 80 · 120).
-
-**Constraints the page holds to.** It works with JavaScript disabled — nothing
-is hidden behind a scroll observer that JavaScript alone can reveal. Animation
-is limited to `transform` and `opacity`, apart from one stroke-dash draw that
-runs once. There are no external JavaScript libraries. `prefers-reduced-motion`
-is respected throughout.
-
-## Deploying
-
-```bash
-mkdir -p .deploy/joe-solves-tech
-cp joe-solves-tech.html .deploy/joe-solves-tech/index.html
-cd .deploy/joe-solves-tech && vercel deploy --prod --yes
-```
+Vercel runs `npm run build` and publishes only `dist/`, as configured in
+`vercel.json`. The production entry point is `dist/index.html` and is served
+at `/`.
 
 ## Status
 
 Early. The three project cards are labelled example builds rather than client
-work, the pricing is provisional, and the reviews section is deliberately an
-empty state until there is something real to put in it.
+work, pricing is provisional, and the reviews section remains an intentional
+empty state until there is something real to publish.

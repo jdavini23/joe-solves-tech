@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Pricing
+   ========================================================================== */
+.tiers{
+  display:grid; gap:var(--space-8);
+  margin-top:var(--space-9);
+  /* stretch so the three CTAs land on one line; the featured tier is
+     distinguished by its ring and scale, not by being a different height */
+  align-items:stretch;
+}
+@media (min-width:860px){ .tiers{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.tier{
+  position:relative;
+  display:flex; flex-direction:column;
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+  transition:transform var(--t), box-shadow var(--t);
+}
+@media (min-width:600px){ .tier{ padding:var(--space-8) var(--space-8) var(--space-8); } }
+.tier:hover{ transform:translateY(-4px); box-shadow:inset 0 1px 0 #FFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float); }
+
+/* featured tier breathes, very slightly */
+.tier--featured{
+  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
+  will-change:transform;
+  animation:breathe 6s ease-in-out infinite;
+}
+.tier--featured:hover{
+  animation-play-state:paused;
+  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
+}
+@keyframes breathe{
+  0%,100%{ transform:scale(1); }
+  50%    { transform:scale(1.018); }
+}
+.tier__flag{
+  position:absolute; top:calc(var(--space-5) * -1); left:50%;
+  transform:translateX(-50%);
+  padding:var(--space-3) var(--space-6);
+  border-radius:var(--r-full);
+  background:var(--accent); color:#fff;
+  font-size:var(--t-meta); font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+  white-space:nowrap;
+}
+.tier__name{ font-size:var(--t-label); font-weight:600; color:var(--ink-60); }
+.tier__price{
+  margin-top:var(--space-5);
+  font-family:var(--font-display); font-weight:500;
+  font-size:var(--t-h2); line-height:1; letter-spacing:normal;
+}
+.tier__unit{ font-family:var(--font-body); font-size:var(--t-label); font-weight:500; color:var(--ink-60); letter-spacing:-0.02em; }
+.tier__for{ margin-top:var(--space-5); font-size:var(--t-body); line-height:1.45; color:var(--ink-75); text-wrap:pretty; }
+.tier__list{ margin:var(--space-7) 0 var(--space-8); display:grid; gap:var(--space-5); }
+.tier__item{ display:flex; align-items:flex-start; gap:var(--space-4); font-size:var(--t-body); line-height:1.45; color:var(--ink-75); }
+.tick{ flex:none; margin-top:2px; color:var(--accent); }
+.tick path{
+  fill:none; stroke:currentColor; stroke-width:2.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+/* drawn by default; JS pulls them back and lets them draw on scroll-in */
+.js .tick path{
+  stroke-dasharray:1; stroke-dashoffset:1;
+  transition:stroke-dashoffset 520ms var(--ease);
+  transition-delay:var(--td,0ms);
+}
+.js .is-in .tick path{ stroke-dashoffset:0; }
+.tier .btn{ width:100%; margin-top:auto; }

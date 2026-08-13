@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Sticky book-now bar — pure CSS, present with or without JS
+   ========================================================================== */
+:root{ --bar-h:62px; }
+@media (min-width:600px){ :root{ --bar-h:70px; } }
+body{ padding-bottom:var(--bar-h); }
+
+.bar{
+  position:fixed; left:0; right:0; bottom:0; z-index:60;
+  min-height:var(--bar-h);
+  display:flex; align-items:center;
+  background:rgba(247,247,247,0.86);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  backdrop-filter:blur(20px) saturate(1.4);
+  box-shadow:0 -1px 0 var(--ink-10),0 -8px 30px -12px rgba(0,0,0,0.16);
+  padding-block:var(--space-3);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .bar{ background:rgba(247,247,247,0.98); }
+}
+.bar__inner{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-6);
+  width:100%;
+}
+.bar__copy{ min-width:0; }
+.bar__title{ font-size:var(--t-body); font-weight:600; line-height:1.25; }
+.bar__note{
+  display:flex; align-items:center; gap:var(--space-3);
+  margin-top:var(--space-1);
+  font-size:var(--t-meta); font-weight:500; color:var(--ink-60);
+}
+.bar__dot{
+  width:6px; height:6px; border-radius:50%; flex:none;
+  background:var(--rose); box-shadow:0 0 0 3px rgba(224,166,198,0.22);
+}
+.bar .btn{ height:44px; padding-inline:var(--space-7); font-size:var(--t-body); flex:none; }
+@media (max-width:479px){
+  .bar__title{ font-size:var(--t-label); }
+  .bar__note{ font-size:var(--t-meta); }
+  .bar .btn{ height:42px; padding-inline:var(--space-6); font-size:var(--t-label); }
+}

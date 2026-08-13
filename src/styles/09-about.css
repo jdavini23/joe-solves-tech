@@ -1,0 +1,26 @@
+/* ==========================================================================
+   About
+   ========================================================================== */
+.about{
+  display:grid; gap:var(--space-8);
+  align-items:start;
+}
+@media (min-width:900px){
+  .about{ grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr); gap:var(--space-9); }
+}
+.about p{ margin-top:var(--space-6); color:var(--ink-75); }
+.about p + p{ margin-top:var(--space-5); }
+
+.facts{
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+}
+.facts__row{
+  display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-6);
+  padding-block:var(--space-5);
+}
+.facts__row + .facts__row{ border-top:1px solid var(--ink-10); }
+.facts__k{ font-size:var(--t-label); font-weight:500; color:var(--ink-60); }
+.facts__v{ font-size:var(--t-body); font-weight:600; color:var(--ink); text-align:right; }

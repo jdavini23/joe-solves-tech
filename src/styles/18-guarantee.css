@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Guarantee
+   ========================================================================== */
+.guarantee{
+  display:grid; gap:var(--space-8);
+  background:var(--surface);
+  border-radius:var(--r-3xl);
+  padding:var(--space-8) var(--space-7);
+  box-shadow:var(--shadow-raised);
+  align-items:center;
+}
+@media (min-width:820px){
+  .guarantee{ grid-template-columns:auto minmax(0,1fr); padding:var(--space-10) var(--space-9); gap:var(--space-10); }
+}
+.guarantee__seal{
+  width:96px; height:96px; margin-inline:auto;
+  display:grid; place-items:center;
+  border-radius:50%;
+  background:var(--accent-soft); color:var(--accent);
+  flex:none;
+}
+.guarantee h2{ margin-top:var(--space-5); }
+.guarantee h2{ max-width:26ch; }
+.guarantee p{ margin-top:var(--space-6); max-width:60ch; color:var(--ink-75); text-wrap:pretty; }
+.guarantee p + p{ margin-top:var(--space-5); }

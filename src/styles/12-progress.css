@@ -1,0 +1,10 @@
+/* ==========================================================================
+   Scroll progress — one transform write per frame, nothing else
+   ========================================================================== */
+.progress{
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:70;
+  transform:scaleX(0); transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--violet),var(--accent) 55%,var(--rose));
+  will-change:transform;
+  pointer-events:none;
+}

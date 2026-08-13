@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+.contact{
+  position:relative; overflow:hidden; isolation:isolate;
+  border-radius:var(--r-3xl);
+  padding:var(--space-9) var(--space-7);
+  text-align:center;
+  color:var(--on-dark);
+  background:linear-gradient(140deg,var(--violet) 0%,var(--brand-mid) 40%,var(--brand-mid) 72%,var(--rose) 100%);
+  box-shadow:var(--shadow-float);
+}
+@media (min-width:810px){ .contact{ padding:var(--space-11) var(--space-8); } }
+.contact::before{
+  content:""; position:absolute; inset:-20%; z-index:-1;
+  background:
+    radial-gradient(40% 50% at 18% 10%, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0) 64%),
+    radial-gradient(46% 54% at 84% 88%, rgba(224,166,198,0.34) 0%, rgba(224,166,198,0) 66%);
+}
+.contact .eyebrow{ color:rgba(255,255,255,0.7); }
+.contact h2{ margin-top:var(--space-5); }
+.contact p{
+  margin:var(--space-6) auto 0;
+  max-width:44ch;
+  font-size:var(--t-lead);
+  color:rgba(255,255,255,0.86);
+}
+.contact .btn{ margin-top:var(--space-8); }
+.contact__alt{ margin-top:var(--space-6); font-size:var(--t-label); color:rgba(255,255,255,0.75); }
+.contact__alt a{ text-decoration:underline; text-underline-offset:3px; }
