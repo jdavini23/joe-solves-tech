@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Reviews — deliberate empty state, not invented quotes
+   ========================================================================== */
+.reviews{ display:grid; gap:var(--space-8); margin-top:var(--space-9); }
+@media (min-width:760px){ .reviews{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.review--empty{
+  border-radius:var(--r-2xl);
+  padding:var(--space-8) var(--space-7);
+  border:1.5px dashed var(--ink-15);
+  background:rgba(255,255,255,0.5);
+  text-align:center;
+}
+.review--empty svg{ margin:0 auto; color:var(--ink-15); }
+.review--empty p{ margin-top:var(--space-6); font-size:var(--t-label); line-height:1.5; color:var(--ink-60); text-wrap:pretty; }
+.review--empty span{ display:block; margin-top:var(--space-5); font-size:var(--t-meta); font-weight:500; color:var(--ink-15); }

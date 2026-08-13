@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Reveal — only applied when JS is on, so no-JS renders fully visible
+   ========================================================================== */
+.js .reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 600ms var(--ease), transform 600ms var(--ease);
+  transition-delay:var(--d,0ms);
+}
+.js .reveal.is-in{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .blob{ animation:none !important; }
+  /* swash arrives already drawn rather than not at all */
+  .swash path{ animation:none !important; stroke-dashoffset:0; }
+  .js .reveal{ transform:none; transition:opacity 300ms linear; }
+  .btn:hover,.card:hover,.card:focus-within{ transform:none; }
+  .card:hover .card__link svg{ transform:none; }
+  /* everything that loops or draws arrives at its resting state instead */
+  .step__icon,.tier--featured,.nav__cta,.nav__cta::after{ animation:none !important; }
+  .tier--featured{ transform:none; }
+  .js .tick path{ stroke-dashoffset:0 !important; transition:none; }
+  .btn--sparkle::after{ display:none; }
+  .step:hover,.tier:hover{ transform:none; }
+  .hero__media img{ transform:scale(1.08); }
+  .js .nudge{ transform:none; transition:opacity 200ms linear; }
+  *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
+}

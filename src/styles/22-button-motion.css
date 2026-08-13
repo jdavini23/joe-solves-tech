@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Button life — sparkle on hover, pulse + shine on the nav CTA
+   ========================================================================== */
+.btn{ position:relative; }
+.btn--sparkle::after{
+  content:"";
+  position:absolute; top:-5px; right:2px;
+  width:13px; height:13px;
+  background:currentColor;
+  clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);
+  opacity:0; transform:scale(0.2) rotate(-40deg);
+  transition:opacity 260ms var(--ease), transform 380ms cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events:none;
+}
+.btn--sparkle:hover::after,.btn--sparkle:focus-visible::after{ opacity:1; transform:scale(1) rotate(0deg); }
+
+.nav__cta{
+  overflow:hidden;
+  will-change:transform;
+  animation:cta-pulse 3.6s ease-in-out infinite;
+}
+.nav__cta:hover{ animation-play-state:paused; }
+@keyframes cta-pulse{
+  0%,72%,100%{ transform:scale(1); }
+  84%        { transform:scale(1.045); }
+}
+.nav__cta::after{
+  content:""; position:absolute; top:0; bottom:0; left:0; width:45%;
+  background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0) 100%);
+  transform:translateX(-260%) skewX(-18deg);
+  animation:cta-shine 3.6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes cta-shine{
+  0%,55%{ transform:translateX(-260%) skewX(-18deg); }
+  85%,100%{ transform:translateX(360%) skewX(-18deg); }
+}

@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--space-3);
+  height:52px; padding-inline:var(--space-8);
+  border:0; border-radius:var(--r-full);
+  font-family:inherit; font-size:var(--t-body); font-weight:600; letter-spacing:-0.02em;
+  cursor:pointer; white-space:nowrap;
+  transition:transform var(--t), box-shadow var(--t), background-color var(--t), color var(--t);
+}
+@media (min-width:810px){ .btn{ height:56px; padding-inline:36px; } }
+
+/* light pill — reads forward on the gradient */
+.btn--light{ background:var(--bg); color:var(--button-ink); box-shadow:var(--shadow-float); }
+.btn--accent{ background:var(--accent); color:#fff; }
+.btn--ghost{
+  background:rgba(255,255,255,0.14);
+  color:var(--on-dark);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.35);
+}
+.btn:hover{ transform:translateY(-1px); }
+.btn--light:hover{ box-shadow:var(--shadow-float),0 0 0 1px rgba(0,0,0,0.04); }
+.btn--accent:hover{ box-shadow:0 6px 20px rgba(0,122,255,0.28); }
+.btn--ghost:hover{ background:rgba(255,255,255,0.22); }
+.btn:active{ transform:translateY(0); }

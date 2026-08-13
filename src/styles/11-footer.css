@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer{
+  padding-block:var(--space-8);
+  border-top:1px solid var(--ink-10);
+  margin-top:var(--space-9);
+}
+.footer__inner{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:var(--space-6);
+}
+.footer a:hover{ color:var(--ink); }
+.footer__links{ display:flex; gap:var(--space-6); }

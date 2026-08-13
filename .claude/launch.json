@@ -3,8 +3,10 @@
   "configurations": [
     {
       "name": "static-site",
-      "runtimeExecutable": "/Users/joedavini/.local/bin/node",
-      "runtimeArgs": ["/Users/joedavini/Desktop/claude/.claude/serve.js"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "/Users/joedavini/joe-solves-tech/scripts/dev-server.js"
+      ],
       "port": 8000
     }
   ]

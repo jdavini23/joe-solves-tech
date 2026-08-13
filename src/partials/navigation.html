@@ -1,0 +1,25 @@
+<!-- sentinel: drives the nav's scrolled state without a scroll listener -->
+<div id="top-sentinel" aria-hidden="true" style="position:absolute;top:0;height:1px;width:1px;"></div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#top" aria-label="Joe Solves Tech, back to top">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M9.6 1.4 3.1 9.1a.5.5 0 0 0 .38.82H7.1l-.7 4.78a.5.5 0 0 0 .89.38l6.5-7.7a.5.5 0 0 0-.38-.82H9.79l.7-4.78a.5.5 0 0 0-.89-.38Z" fill="#fff"/>
+        </svg>
+      </span>
+      <span class="brand__word">Joe Solves Tech</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Sections">
+      <a class="nav__link" href="#work" data-nav>Work</a>
+      <a class="nav__link" href="#pricing" data-nav>Pricing</a>
+      <a class="nav__link" href="#faq" data-nav data-hide-xs>FAQ</a>
+    </nav>
+
+    <a class="btn nav__cta" href="#contact">Get in touch</a>
+  </div>
+</header>

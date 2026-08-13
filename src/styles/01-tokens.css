@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Tokens — portal-design-system.md
+   ========================================================================== */
+:root{
+  /* ---- THE PALETTE — five colours, all from portal-design-system.md §2.
+     Nothing else in this file is a colour. Every value below the rule is
+     derived from one of these five, or is white. ------------------------ */
+  --ink:#000000;      /* text                     */
+  --bg:#F7F7F7;       /* ground                   */
+  --accent:#007AFF;   /* the one accent           */
+  --violet:#5566F5;   /* brand gradient, head     */
+  --rose:#E0A6C6;     /* brand gradient, tail     */
+
+  /* derived — gradient midpoint, bowed toward blue the way the system's
+     sampled 4-stop ramp does. Replaces #7B84EE and #A896E0. */
+  --brand-mid:#9E93E4;
+
+  /* derived — one neutral ramp, greys biased toward --violet. Replaces the
+     nine unrelated blue-greys that were scattered through the SVG art. */
+  --n-50:#F3F4F8;
+  --n-100:#E8EAF2;
+  --n-200:#D5D9E6;
+  --n-300:#B9BFD4;
+
+  /* derived — surfaces and ink levels */
+  --surface:#FFFFFF;
+  --surface-glass:rgba(255,255,255,0.6);
+  --surface-glass-strong:rgba(255,255,255,0.8);
+  --accent-soft:rgba(0,122,255,0.10);
+  --ink-75:rgba(0,0,0,0.75);
+  --ink-60:rgba(0,0,0,0.6);
+  --ink-15:rgba(0,0,0,0.15);
+  --ink-10:rgba(0,0,0,0.1);
+  --on-dark:#FFFFFF;
+  --on-dark-75:rgba(255,255,255,0.75);
+  --button-ink:#535398;
+
+  /* type */
+  --font-display:"Playfair Display", Georgia, serif;
+  --font-body:"Inter", system-ui, -apple-system, sans-serif;
+
+  /* ---- THE TYPE SCALE — six steps, from portal-design-system.md §3.
+     No size outside this scale appears anywhere in the stylesheet. ------ */
+  --t-display:clamp(3rem,8vw,4.75rem);   /* h1  — display serif, 1.0  */
+  --t-h2:clamp(1.75rem,4vw,2.25rem);     /* h2  — display serif, 1.0  */
+  --t-h3:1.125rem;                       /* 18  — subheads, 600       */
+  --t-body:1rem;                         /* 16  — body and all UI     */
+  --t-label:0.875rem;                    /* 14  — labels, captions    */
+  --t-meta:0.75rem;                      /* 12  — eyebrows, meta      */
+  --t-lead:clamp(1.0625rem,1.9vw,1.1875rem); /* section intros        */
+
+  /* spacing — 2 · 4 · 6 · 10 · 12 · 16 · 20 · 40 · 60 · 80,
+     extended past the system's 80px ceiling for section rhythm */
+  --space-1:2px;  --space-2:4px;  --space-3:6px;  --space-4:10px; --space-5:12px;
+  --space-6:16px; --space-7:20px; --space-8:40px; --space-9:60px; --space-10:80px;
+  --space-11:120px;
+
+  /* radius */
+  --r-xs:7px; --r-sm:12px; --r-md:14px; --r-lg:20px;
+  --r-xl:22px; --r-2xl:24px; --r-3xl:30px; --r-4xl:40px; --r-full:50px;
+
+  /* elevation */
+  --shadow-glass:
+    inset 0 0.5px 0 0.5px rgba(255,255,255,0.6),
+    inset 0 0 30px rgba(255,255,255,0.4),
+    inset 0 0 12px rgba(255,255,255,0.8);
+  --shadow-raised:
+    inset 0 1px 0 #FFFFFF,
+    0 0 0 1px rgba(0,0,0,0.15),
+    0 3px 2px rgba(0,0,0,0.06);
+  --shadow-float:
+    0 0.6px 2.3px -0.4px rgba(0,0,0,0.03),
+    0 2.3px 8.7px -0.8px rgba(0,0,0,0.04),
+    0 10px 38px -1.25px rgba(0,0,0,0.08);
+
+  /* motion */
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --t:200ms var(--ease);
+
+  /* layout */
+  --wrap:1200px;
+  --gutter:var(--space-7);
+  --nav-h:68px;
+}
+
+@media (min-width:810px){
+  :root{ --gutter:var(--space-8); --nav-h:76px; }
+}
