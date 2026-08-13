@@ -13,8 +13,8 @@ function route(pathname) {
   if (pathname === "/" || pathname === "/index.html") return path.join(DIST, "index.html");
   if (pathname === "/compare" || pathname === "/compare/") return path.join(ROOT, "tools", "compare", "index.html");
   if (pathname === "/compare/before.html") return path.join(ROOT, "tools", "compare", "before.html");
-  if (pathname.startsWith("/assets/")) return safeFile(path.join(DIST, "assets"), pathname.slice("/assets/".length));
-  return null;
+  const requested = pathname.endsWith("/") ? pathname + "index.html" : pathname;
+  return safeFile(DIST, requested.replace(/^\/+/, ""));
 }
 function createDevServer() {
   return http.createServer((request, response) => {

@@ -55,7 +55,7 @@
   display:inline-flex; align-items:center; gap:var(--space-3);
   margin-top:auto; padding-top:var(--space-6);
   border-top:1px solid var(--ink-10);
-  font-size:var(--t-label); font-weight:600; color:var(--accent);
+  font-size:var(--t-label); font-weight:600; color:var(--accent); text-decoration:none;
 }
 .card__link svg{ transition:transform var(--t); }
 .card:hover .card__link svg{ transform:translateX(3px); }

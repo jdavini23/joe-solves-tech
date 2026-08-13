@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Working automation demos for a fictional home-cleaning company, built by Joe Solves Tech.">
+  <meta property="og:title" content="Joe Solves Tech · Working demos">
+  <meta property="og:description" content="Try a lead-to-invoice workflow, owner dashboard, and guarded estimate assistant.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://joe-solves-tech.vercel.app/demo/">
+  <meta property="og:image" content="https://joe-solves-tech.vercel.app/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Joe Solves Tech · Working demos">
+  <meta name="twitter:description" content="Try a lead-to-invoice workflow, owner dashboard, and guarded estimate assistant.">
+  <meta name="twitter:image" content="https://joe-solves-tech.vercel.app/og.png">
+  <title>Northstar Home Cleaning · Working demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/demo/demo.css">
+</head>
+<body>
+  <header class="demo-header">
+    <div class="shell demo-header__inner">
+      <a class="demo-brand" href="/demo/#intake" aria-label="Northstar Home Cleaning demos">
+        <span class="demo-brand__mark" aria-hidden="true">✦</span>
+        <span><strong>Northstar</strong><small>Home Cleaning · Demo company</small></span>
+      </a>
+      <nav class="demo-nav" aria-label="Working demos">
+        <a href="#intake" data-view-link="intake">Intake</a>
+        <a href="#dashboard" data-view-link="dashboard">Dashboard</a>
+        <a href="#assistant" data-view-link="assistant">Assistant</a>
+      </nav>
+      <a class="back-link" href="/">Portfolio ↗</a>
+    </div>
+  </header>
+
+  <div class="demo-notice">
+    <div class="shell demo-notice__inner">
+      <p><strong>Working sandbox:</strong> Northstar is fictional and every record is synthetic. Your changes stay in this browser.</p>
+      <button class="text-button" type="button" id="reset-demo">Reset demo data</button>
+    </div>
+  </div>
+
+  <main class="shell demo-main">
+    <section class="view" id="intake" data-view="intake" aria-labelledby="intake-title">
+      <div class="view-heading">
+        <div>
+          <p class="eyebrow">Build 01 · Intake to invoice</p>
+          <h1 id="intake-title">One request. No retyping.</h1>
+          <p>Submit a cleaning request, then move it through a complete quote-to-invoice workflow.</p>
+        </div>
+        <div class="flow" aria-label="Workflow stages">
+          <span class="is-current" data-flow="request">1 Request</span>
+          <span data-flow="quote">2 Quote</span>
+          <span data-flow="job">3 Job</span>
+          <span data-flow="invoice">4 Invoice</span>
+        </div>
+      </div>
+
+      <div class="intake-layout">
+        <form class="panel form-panel" id="intake-form">
+          <div class="panel-heading">
+            <div><span class="panel-kicker">Customer-facing form</span><h2>Request a cleaning</h2></div>
+            <span class="status-chip">Demo mode</span>
+          </div>
+          <div class="form-grid">
+            <label>Full name<input name="name" required value="Maya Thompson" autocomplete="name"></label>
+            <label>Email<input name="email" required type="email" value="maya@example.com" autocomplete="email"></label>
+            <label>Service
+              <select name="service" required><option value="standard">Standard clean</option><option value="deep">Deep clean</option><option value="moveout">Move-out clean</option></select>
+            </label>
+            <label>Frequency
+              <select name="frequency" required><option value="once">One time</option><option value="weekly">Weekly</option><option value="biweekly">Every two weeks</option><option value="monthly">Monthly</option></select>
+            </label>
+            <label>Bedrooms<input name="bedrooms" required type="number" min="1" max="6" value="3"></label>
+            <label>Bathrooms<input name="bathrooms" required type="number" min="1" max="5" step="0.5" value="2"></label>
+            <fieldset class="full-field">
+              <legend>Add-ons</legend>
+              <label class="check"><input type="checkbox" name="addons" value="fridge"> Inside fridge</label>
+              <label class="check"><input type="checkbox" name="addons" value="oven" checked> Inside oven</label>
+              <label class="check"><input type="checkbox" name="addons" value="windows"> Interior windows</label>
+            </fieldset>
+            <label class="full-field">Notes<textarea name="notes" rows="3">Please focus on the kitchen and main bathroom.</textarea></label>
+          </div>
+          <button class="button button--primary" type="submit">Create request and quote</button>
+        </form>
+
+        <aside class="panel automation-panel" aria-live="polite">
+          <div class="panel-heading">
+            <div><span class="panel-kicker">Behind the scenes</span><h2>Automation log</h2></div>
+            <span class="live-dot">Ready</span>
+          </div>
+          <ol class="automation-log" id="automation-log"><li><span>Waiting</span><p>Submit the request to start the workflow.</p></li></ol>
+        </aside>
+      </div>
+      <section class="result-panel" id="workflow-result" hidden aria-live="polite"></section>
+    </section>
+
+    <section class="view" id="dashboard" data-view="dashboard" aria-labelledby="dashboard-title" hidden>
+      <div class="view-heading">
+        <div><p class="eyebrow">Build 02 · Owner dashboard</p><h1 id="dashboard-title">The morning view.</h1><p>Everything that needs attention, based on the same records used by the other demos.</p></div>
+        <button class="button button--secondary" type="button" id="copy-summary">Copy daily summary</button>
+      </div>
+      <div class="metric-grid" id="metric-grid"></div>
+      <div class="dashboard-grid">
+        <section class="panel"><div class="panel-heading"><div><span class="panel-kicker">Today</span><h2>Needs attention</h2></div></div><div id="attention-list"></div></section>
+        <section class="panel"><div class="panel-heading"><div><span class="panel-kicker">Pipeline</span><h2>Recent activity</h2></div></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Stage</th><th>Value</th></tr></thead><tbody id="activity-table"></tbody></table></div></section>
+      </div>
+      <section class="summary-panel"><span class="panel-kicker">Automated owner email</span><h2>Good morning, Joe.</h2><pre id="daily-summary"></pre></section>
+    </section>
+
+    <section class="view" id="assistant" data-view="assistant" aria-labelledby="assistant-title" hidden>
+      <div class="view-heading">
+        <div><p class="eyebrow">Build 03 · After-hours assistant</p><h1 id="assistant-title">Helpful at 11pm. Careful, too.</h1><p>The assistant follows an approved price sheet, labels estimates clearly, and creates a qualified lead.</p></div>
+        <button class="button button--secondary" type="button" id="restart-chat">Restart conversation</button>
+      </div>
+      <div class="assistant-layout">
+        <section class="chat-panel" aria-label="Estimate assistant">
+          <div class="chat-header"><span class="assistant-avatar">N</span><div><strong>Northstar assistant</strong><small><span class="online-dot"></span> Online · Demo</small></div></div>
+          <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+          <form class="chat-composer" id="chat-form"><input id="chat-input" aria-label="Your reply" autocomplete="off" placeholder="Type your answer…"><button type="submit" aria-label="Send reply">Send</button></form>
+        </section>
+        <aside class="panel guardrail-panel">
+          <span class="panel-kicker">What keeps it honest</span><h2>Assistant guardrails</h2>
+          <ul><li>Only uses the published demo price sheet.</li><li>Returns a range, never a binding quote.</li><li>Asks for missing information instead of guessing.</li><li>Does not promise availability.</li><li>Saves a structured lead for human follow-up.</li></ul>
+          <div class="price-sheet"><strong>Approved price sheet</strong><span>Standard from $110</span><span>Deep clean × 1.55</span><span>Move-out × 1.8</span><span>Add-ons from $20</span></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="demo-footer"><div class="shell"><p>Built by <a href="/">Joe Solves Tech</a> · Fictional company and synthetic data</p></div></footer>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="/demo/js/main.js"></script>
+</body>
+</html>
