@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joe Davini · Joe Solves Tech</title>
+<meta name="description" content="AI and no-code systems for small businesses. I build the small tech that takes the busywork off your plate.">
+<script>document.documentElement.className = "js";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Tokens — portal-design-system.md
+   ========================================================================== */
+:root{
+  /* color */
+  --bg:#F7F7F7;
+  --surface:#FFFFFF;
+  --surface-glass:rgba(255,255,255,0.6);
+  --surface-glass-strong:rgba(255,255,255,0.8);
+  --accent:#007AFF;
+  --accent-soft:rgba(0,122,255,0.10);
+  --ink:#000000;
+  --ink-75:rgba(0,0,0,0.75);
+  --ink-60:rgba(0,0,0,0.6);
+  --ink-15:rgba(0,0,0,0.15);
+  --ink-10:rgba(0,0,0,0.1);
+  --on-dark:#FFFFFF;
+  --on-dark-75:rgba(255,255,255,0.75);
+  --button-ink:#535398;
+
+  /* type */
+  --font-display:"Playfair Display", Georgia, serif;
+  --font-body:"Inter", system-ui, -apple-system, sans-serif;
+
+  /* spacing — 2 · 4 · 6 · 10 · 12 · 16 · 20 · 40 · 60 · 80 */
+  --space-1:2px;  --space-2:4px;  --space-3:6px;  --space-4:10px; --space-5:12px;
+  --space-6:16px; --space-7:20px; --space-8:40px; --space-9:60px; --space-10:80px;
+
+  /* radius */
+  --r-xs:7px; --r-sm:12px; --r-md:14px; --r-lg:20px;
+  --r-xl:22px; --r-2xl:24px; --r-3xl:30px; --r-4xl:40px; --r-full:50px;
+
+  /* elevation */
+  --shadow-glass:
+    inset 0 0.5px 0 0.5px rgba(255,255,255,0.6),
+    inset 0 0 30px rgba(255,255,255,0.4),
+    inset 0 0 12px rgba(255,255,255,0.8);
+  --shadow-raised:
+    inset 0 1px 0 #FFFFFF,
+    0 0 0 1px rgba(0,0,0,0.15),
+    0 3px 2px rgba(0,0,0,0.06);
+  --shadow-float:
+    0 0.6px 2.3px -0.4px rgba(0,0,0,0.03),
+    0 2.3px 8.7px -0.8px rgba(0,0,0,0.04),
+    0 10px 38px -1.25px rgba(0,0,0,0.08);
+
+  /* motion */
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --t:200ms var(--ease);
+
+  /* layout */
+  --wrap:1200px;
+  --gutter:var(--space-7);
+  --nav-h:68px;
+}
+
+@media (min-width:810px){
+  :root{ --gutter:var(--space-8); --nav-h:76px; }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.55;
+  letter-spacing:-0.02em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+h1,h2,h3,p,ul,figure{ margin:0; }
+ul{ padding:0; list-style:none; }
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:var(--space-3);
+}
+
+/* Type scale */
+h1,h2{
+  font-family:var(--font-display);
+  font-weight:400;
+  line-height:1.0;
+  letter-spacing:normal;
+  text-wrap:balance;
+}
+/* h1 runs one step heavier than the system's 400 for editorial weight.
+   h2 stays at 400 so the serif never reads bold twice on one page. */
+h1{ font-size:clamp(3rem,9vw,5.375rem); font-weight:500; }
+h2{ font-size:clamp(1.75rem,5vw,2.25rem); }
+h3{ font-size:1.125rem; font-weight:600; line-height:1.3; letter-spacing:-0.02em; }
+
+.eyebrow{
+  font-size:12px; font-weight:500; line-height:1.3; letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--ink-60);
+}
+.lead{
+  font-size:clamp(1rem,1.9vw,1.1875rem);
+  line-height:1.5;
+  color:var(--ink-75);
+  text-wrap:pretty;
+}
+.card__body,.about p,.contact p{ text-wrap:pretty; }
+.meta{ font-size:12px; font-weight:500; line-height:1.3; color:var(--ink-60); }
+
+/* Layout primitives */
+.wrap{
+  width:100%;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
+}
+.section{ padding-block:var(--space-9); }
+@media (min-width:810px){ .section{ padding-block:var(--space-10); } }
+[id]{ scroll-margin-top:calc(var(--nav-h) + var(--space-7)); }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:var(--space-3);
+  height:52px; padding-inline:var(--space-8);
+  border:0; border-radius:var(--r-full);
+  font-family:inherit; font-size:16px; font-weight:600; letter-spacing:-0.02em;
+  cursor:pointer; white-space:nowrap;
+  transition:transform var(--t), box-shadow var(--t), background-color var(--t), color var(--t);
+}
+@media (min-width:810px){ .btn{ height:56px; padding-inline:36px; } }
+
+/* light pill — reads forward on the gradient */
+.btn--light{ background:var(--bg); color:var(--button-ink); box-shadow:var(--shadow-float); }
+.btn--accent{ background:var(--accent); color:#fff; }
+.btn--ghost{
+  background:rgba(255,255,255,0.14);
+  color:var(--on-dark);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.35);
+}
+.btn:hover{ transform:translateY(-1px); }
+.btn--light:hover{ box-shadow:var(--shadow-float),0 0 0 1px rgba(0,0,0,0.04); }
+.btn--accent:hover{ box-shadow:0 6px 20px rgba(0,122,255,0.28); }
+.btn--ghost:hover{ background:rgba(255,255,255,0.22); }
+.btn:active{ transform:translateY(0); }
+
+/* ==========================================================================
+   Nav — transparent over the hero, frosted after it
+   ========================================================================== */
+.nav{
+  position:sticky; top:0; z-index:50;
+  height:var(--nav-h);
+  display:flex; align-items:center;
+  --nav-link:var(--on-dark-75);
+  --nav-link-on:var(--on-dark);
+  --nav-link-bg:rgba(0,0,0,0.1);
+  transition:background-color var(--t), box-shadow var(--t);
+}
+.nav.is-scrolled{
+  background:rgba(247,247,247,0.72);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  backdrop-filter:blur(20px) saturate(1.4);
+  box-shadow:0 1px 0 var(--ink-10);
+  --nav-link:var(--ink-60);
+  --nav-link-on:var(--ink);
+  --nav-link-bg:var(--ink-10);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .nav.is-scrolled{ background:rgba(247,247,247,0.96); }
+}
+
+.nav__inner{ display:flex; align-items:center; gap:var(--space-6); width:100%; }
+
+.brand{ display:flex; align-items:center; gap:var(--space-4); margin-right:auto; }
+.brand__mark{
+  width:32px; height:32px; flex:none;
+  border-radius:var(--r-xs);
+  background:linear-gradient(140deg,#5566F5,#A896E0 60%,#E0A6C6);
+  display:grid; place-items:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.55);
+}
+.brand__word{
+  font-family:var(--font-display); font-size:19px; line-height:1;
+  color:var(--nav-link-on);
+  transition:color var(--t);
+  white-space:nowrap;
+}
+
+.nav__links{ display:flex; align-items:center; gap:var(--space-1); }
+.nav__link{
+  display:inline-flex; align-items:center; height:40px;
+  padding-inline:var(--space-5);
+  border-radius:var(--r-lg);
+  font-size:15px; color:var(--nav-link);
+  transition:color var(--t), background-color var(--t);
+}
+.nav__link:hover{ color:var(--nav-link-on); }
+.nav__link.is-active{ color:var(--nav-link-on); background:var(--nav-link-bg); }
+
+/* pinned CTA */
+.nav__cta{
+  height:40px; padding-inline:var(--space-7);
+  font-size:15px;
+  background:var(--bg); color:var(--button-ink);
+  box-shadow:0 1px 2px rgba(0,0,0,0.10);
+}
+.nav.is-scrolled .nav__cta{ background:var(--accent); color:#fff; box-shadow:none; }
+
+@media (max-width:599px){
+  .brand__word{ display:none; }
+  .nav__inner{ gap:var(--space-4); }
+  .nav__link{ padding-inline:var(--space-3); font-size:14px; }
+  .nav__cta{ padding-inline:var(--space-6); font-size:14px; }
+}
+@media (max-width:339px){
+  .nav__link[data-hide-xs]{ display:none; }
+}
+
+/* ==========================================================================
+   Hero — mesh gradient, drifting shapes, glass card
+   ========================================================================== */
+.hero{
+  position:relative;
+  margin-top:calc(var(--nav-h) * -1);
+  padding-top:calc(var(--nav-h) + var(--space-9));
+  padding-bottom:var(--space-9);
+  isolation:isolate;
+  overflow:hidden;
+  color:var(--on-dark);
+  background:linear-gradient(180deg,#5566F5 0%,#7B84EE 35%,#A896E0 70%,#E0A6C6 100%);
+}
+@media (min-width:810px){
+  .hero{ padding-top:calc(var(--nav-h) + var(--space-10)); padding-bottom:var(--space-10); }
+}
+
+/* static mesh layer: soft radial pools, no filter, cheap to paint */
+.hero__mesh{
+  position:absolute; inset:-10%; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(46% 40% at 12% 8%,  rgba(255,255,255,0.42) 0%, rgba(255,255,255,0) 62%),
+    radial-gradient(42% 46% at 88% 22%, rgba(120,214,255,0.36) 0%, rgba(120,214,255,0) 64%),
+    radial-gradient(52% 48% at 74% 92%, rgba(255,176,150,0.34) 0%, rgba(255,176,150,0) 66%),
+    radial-gradient(46% 44% at 22% 84%, rgba(112,96,235,0.42) 0%, rgba(112,96,235,0) 66%);
+}
+
+/* drifting shapes: soft-edged radial fills, animated on transform only */
+.blob{
+  position:absolute; z-index:-1; pointer-events:none;
+  border-radius:50%;
+  will-change:transform;
+  transform:translate3d(0,0,0);
+}
+.blob--1{
+  width:62vw; height:62vw; max-width:640px; max-height:640px;
+  top:-14%; left:-12%;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 42%, rgba(255,255,255,0) 70%);
+  animation:drift-a 32s var(--ease) infinite alternate;
+}
+.blob--2{
+  width:72vw; height:72vw; max-width:760px; max-height:760px;
+  top:6%; right:-22%;
+  background:radial-gradient(circle at 50% 50%, rgba(224,166,198,0.62) 0%, rgba(224,166,198,0.22) 44%, rgba(224,166,198,0) 70%);
+  animation:drift-b 44s var(--ease) infinite alternate;
+}
+.blob--3{
+  width:56vw; height:56vw; max-width:560px; max-height:560px;
+  bottom:-22%; left:26%;
+  background:radial-gradient(circle at 50% 50%, rgba(133,225,255,0.46) 0%, rgba(133,225,255,0.16) 46%, rgba(133,225,255,0) 72%);
+  animation:drift-c 38s var(--ease) infinite alternate;
+}
+@keyframes drift-a{
+  from{ transform:translate3d(0,0,0) scale(1); }
+  to  { transform:translate3d(9vw,7vh,0) scale(1.14); }
+}
+@keyframes drift-b{
+  from{ transform:translate3d(0,0,0) scale(1.06); }
+  to  { transform:translate3d(-11vw,10vh,0) scale(0.92); }
+}
+@keyframes drift-c{
+  from{ transform:translate3d(0,0,0) scale(0.94); }
+  to  { transform:translate3d(8vw,-9vh,0) scale(1.12); }
+}
+
+/* blend the hero into the page */
+.hero__fade{
+  position:absolute; left:0; right:0; bottom:0; height:140px; z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(180deg, rgba(247,247,247,0) 0%, rgba(247,247,247,0.55) 62%, var(--bg) 100%);
+}
+
+.hero__grid{
+  display:grid; gap:var(--space-8);
+  align-items:center;
+}
+@media (min-width:960px){
+  /* the heavier h1 needs more measure; the gap gives it back */
+  .hero__grid{ grid-template-columns:minmax(0,1.2fr) minmax(0,0.8fr); gap:var(--space-8); }
+}
+
+.status{
+  display:inline-flex; align-items:center; gap:var(--space-3);
+  height:34px; padding-inline:var(--space-5) var(--space-6);
+  border-radius:var(--r-full);
+  background:rgba(255,255,255,0.16);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.34);
+  font-size:13px; font-weight:500; color:var(--on-dark);
+}
+.status__dot{
+  width:7px; height:7px; border-radius:50%;
+  background:#8CF5C0; box-shadow:0 0 0 3px rgba(140,245,192,0.28);
+}
+
+.hero h1{ margin-block:var(--space-7) 0; }
+
+/* ---- hand-drawn underline swash ----------------------------------------
+   One-shot. Draws once on load via stroke-dashoffset, then holds at 0.
+   pathLength="1" normalises the dash maths so the path data can change
+   without retuning the animation. ------------------------------------- */
+.swash-word{ position:relative; display:inline-block; white-space:nowrap; }
+.swash{
+  position:absolute;
+  left:-0.05em; right:-0.05em; bottom:-0.1em;
+  width:auto; height:0.2em;
+  overflow:visible;
+  pointer-events:none;
+}
+.swash path{
+  fill:none;
+  stroke:var(--accent);
+  stroke-width:6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+  animation:swash-draw 900ms cubic-bezier(0.65,0,0.35,1) 700ms forwards;
+}
+@keyframes swash-draw{ to{ stroke-dashoffset:0; } }
+.hero__sub{
+  margin-top:var(--space-7);
+  max-width:34ch;
+  font-size:clamp(1.0625rem,2.1vw,1.25rem);
+  line-height:1.5;
+  color:rgba(255,255,255,0.86);
+  text-wrap:pretty;
+}
+.hero__actions{
+  display:flex; flex-wrap:wrap; gap:var(--space-5);
+  margin-top:var(--space-8);
+}
+/* stacked pills read as ragged at auto width; match them instead */
+@media (max-width:479px){
+  .hero__actions{ display:grid; gap:var(--space-5); }
+  .hero__actions .btn{ width:100%; }
+}
+
+/* Glass card */
+.glass{
+  padding:var(--space-7);
+  border-radius:var(--r-3xl);
+  background:var(--surface-glass);
+  -webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow-glass),0 10px 38px -1.25px rgba(40,30,90,0.14);
+  color:var(--ink);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass{ background:var(--surface-glass-strong); }
+}
+@media (min-width:600px){ .glass{ padding:var(--space-8); } }
+
+.glass__title{ font-size:14px; font-weight:600; color:var(--ink); }
+.glass__list{ margin-top:var(--space-6); display:grid; gap:var(--space-5); }
+.glass__item{ display:flex; align-items:flex-start; gap:var(--space-4); }
+.chip{
+  width:28px; height:28px; flex:none;
+  display:grid; place-items:center;
+  border-radius:var(--r-xs);
+  background:var(--accent-soft); color:var(--accent);
+}
+.glass__item span{ font-size:16px; color:var(--ink-75); line-height:1.4; }
+.glass__foot{
+  margin-top:var(--space-7); padding-top:var(--space-6);
+  border-top:1px solid var(--ink-15);
+  font-size:12px; font-weight:500; color:var(--ink-60);
+}
+
+/* ==========================================================================
+   Section header
+   ========================================================================== */
+.head{ max-width:52ch; }
+.head h2{ margin-top:var(--space-5); }
+.head .lead{ margin-top:var(--space-6); }
+
+/* ==========================================================================
+   Work grid
+   ========================================================================== */
+.grid{
+  display:grid; gap:var(--space-7);
+  margin-top:var(--space-8);
+}
+@media (min-width:700px){ .grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (min-width:1000px){ .grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+
+.card{
+  display:flex; flex-direction:column;
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+  transition:transform var(--t), box-shadow var(--t);
+}
+.card:hover,.card:focus-within{
+  transform:translateY(-4px);
+  box-shadow:inset 0 1px 0 #FFFFFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float);
+}
+.card__media{
+  border-radius:var(--r-md);
+  overflow:hidden;
+  background:linear-gradient(160deg,#F2F4FA 0%,#EDEFF7 100%);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+.card__media svg{ width:100%; height:auto; }
+.card__top{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-4);
+  margin-top:var(--space-6);
+}
+.card__no{ font-size:12px; font-weight:600; color:var(--accent); letter-spacing:0.04em; }
+.badge{
+  padding:var(--space-2) var(--space-3);
+  border-radius:var(--r-full);
+  background:var(--ink-10); color:var(--ink-60);
+  font-size:11px; font-weight:500; letter-spacing:-0.01em;
+}
+.card h3{ margin-top:var(--space-4); }
+.card__body{ margin-top:var(--space-4); font-size:16px; color:var(--ink-75); line-height:1.5; }
+.tags{
+  display:flex; flex-wrap:wrap; gap:var(--space-3);
+  margin-top:var(--space-6); margin-bottom:var(--space-6);
+}
+.tag{
+  padding:var(--space-2) var(--space-4);
+  border-radius:var(--r-full);
+  background:var(--accent-soft); color:var(--accent);
+  font-size:12px; font-weight:500;
+}
+.card__link{
+  display:inline-flex; align-items:center; gap:var(--space-3);
+  margin-top:auto; padding-top:var(--space-6);
+  border-top:1px solid var(--ink-10);
+  font-size:14px; font-weight:600; color:var(--accent);
+}
+.card__link svg{ transition:transform var(--t); }
+.card:hover .card__link svg{ transform:translateX(3px); }
+
+/* ==========================================================================
+   By the numbers — static, no animation of any kind
+   ========================================================================== */
+.numbers{
+  background:var(--surface);
+  border-radius:var(--r-3xl);
+  padding:var(--space-8) var(--space-7);
+  box-shadow:var(--shadow-raised);
+  display:grid; gap:var(--space-8);
+}
+@media (min-width:700px){
+  .numbers{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:0;
+    padding:var(--space-9) var(--space-8);
+  }
+}
+.stat{ text-align:center; }
+@media (min-width:700px){
+  .stat{ padding-inline:var(--space-7); }
+  .stat + .stat{ border-left:1px solid var(--ink-10); }
+}
+.stat__rule{
+  width:26px; height:2px; margin:0 auto var(--space-6);
+  border-radius:2px; background:var(--accent);
+}
+.stat__n{
+  font-family:var(--font-display);
+  font-weight:500;
+  font-size:clamp(3.25rem,8vw,4.25rem);
+  line-height:1.0;
+  letter-spacing:normal;
+  color:var(--ink);
+}
+.stat__label{
+  margin:var(--space-5) auto 0;
+  max-width:26ch;
+  font-size:14px; font-weight:500; line-height:1.4;
+  color:var(--ink-60);
+  text-wrap:pretty;
+}
+
+/* ==========================================================================
+   About
+   ========================================================================== */
+.about{
+  display:grid; gap:var(--space-8);
+  align-items:start;
+}
+@media (min-width:900px){
+  .about{ grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr); gap:var(--space-9); }
+}
+.about p{ margin-top:var(--space-6); color:var(--ink-75); }
+.about p + p{ margin-top:var(--space-5); }
+
+.facts{
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+}
+.facts__row{
+  display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-6);
+  padding-block:var(--space-5);
+}
+.facts__row + .facts__row{ border-top:1px solid var(--ink-10); }
+.facts__k{ font-size:14px; font-weight:500; color:var(--ink-60); }
+.facts__v{ font-size:16px; font-weight:600; color:var(--ink); text-align:right; }
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+.contact{
+  position:relative; overflow:hidden; isolation:isolate;
+  border-radius:var(--r-3xl);
+  padding:var(--space-9) var(--space-7);
+  text-align:center;
+  color:var(--on-dark);
+  background:linear-gradient(140deg,#5566F5 0%,#7B84EE 40%,#A896E0 72%,#E0A6C6 100%);
+  box-shadow:var(--shadow-float);
+}
+@media (min-width:810px){ .contact{ padding:var(--space-10) var(--space-8); } }
+.contact::before{
+  content:""; position:absolute; inset:-20%; z-index:-1;
+  background:
+    radial-gradient(40% 50% at 18% 10%, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0) 64%),
+    radial-gradient(46% 54% at 84% 88%, rgba(255,176,150,0.34) 0%, rgba(255,176,150,0) 66%);
+}
+.contact .eyebrow{ color:rgba(255,255,255,0.7); }
+.contact h2{ margin-top:var(--space-5); }
+.contact p{
+  margin:var(--space-6) auto 0;
+  max-width:44ch;
+  font-size:clamp(1rem,1.9vw,1.125rem);
+  color:rgba(255,255,255,0.86);
+}
+.contact .btn{ margin-top:var(--space-8); }
+.contact__alt{ margin-top:var(--space-6); font-size:14px; color:rgba(255,255,255,0.75); }
+.contact__alt a{ text-decoration:underline; text-underline-offset:3px; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer{
+  padding-block:var(--space-8);
+  border-top:1px solid var(--ink-10);
+  margin-top:var(--space-9);
+}
+.footer__inner{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:var(--space-6);
+}
+.footer a:hover{ color:var(--ink); }
+.footer__links{ display:flex; gap:var(--space-6); }
+
+/* ==========================================================================
+   Scroll progress — one transform write per frame, nothing else
+   ========================================================================== */
+.progress{
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:70;
+  transform:scaleX(0); transform-origin:0 50%;
+  background:linear-gradient(90deg,#5566F5,#007AFF 55%,#E0A6C6);
+  will-change:transform;
+  pointer-events:none;
+}
+
+/* ==========================================================================
+   Hero image + floating booking card
+   ========================================================================== */
+.hero__media{
+  position:relative;
+  border-radius:var(--r-3xl);
+  /* warm gradient fallback — shows through if the photo never arrives */
+  background:linear-gradient(150deg,#F0B79A 0%,#E0A6C6 42%,#A896E0 100%);
+  box-shadow:0 18px 50px -12px rgba(40,30,90,0.35),inset 0 0 0 1px rgba(255,255,255,0.28);
+  overflow:hidden;
+  aspect-ratio:4/5;
+  max-height:60vh;
+}
+@media (min-width:960px){ .hero__media{ max-height:none; } }
+.hero__media img{
+  width:100%; height:100%;
+  object-fit:cover; object-position:50% 30%;
+  will-change:transform;
+  /* overscan so the parallax shift never exposes an edge */
+  transform:scale(1.08) translate3d(0,0,0);
+}
+.hero__media::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(200deg,rgba(30,20,70,0) 40%,rgba(30,20,70,0.45) 100%);
+  pointer-events:none;
+}
+
+.booking{
+  position:absolute; z-index:2;
+  left:var(--space-6); right:var(--space-6); bottom:var(--space-6);
+  padding:var(--space-6);
+  border-radius:var(--r-2xl);
+}
+@media (min-width:600px){
+  .booking{ left:auto; right:var(--space-7); bottom:var(--space-7); width:290px; }
+}
+.booking__title{ font-size:15px; font-weight:600; }
+.booking__body{ margin-top:var(--space-3); font-size:14px; line-height:1.45; color:var(--ink-75); }
+.booking .btn{
+  width:100%; height:44px; margin-top:var(--space-6);
+  padding-inline:var(--space-6); font-size:15px;
+}
+.booking__meta{ margin-top:var(--space-4); font-size:12px; font-weight:500; color:var(--ink-60); text-align:center; }
+
+/* ==========================================================================
+   How it works — bobbing icons
+   ========================================================================== */
+.steps{
+  display:grid; gap:var(--space-8);
+  margin-top:var(--space-8);
+  counter-reset:step;
+}
+@media (min-width:760px){ .steps{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--space-7); } }
+.step{
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+  transition:transform var(--t), box-shadow var(--t);
+}
+.step:hover{ transform:translateY(-4px); box-shadow:inset 0 1px 0 #FFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float); }
+.step__icon{
+  width:54px; height:54px;
+  display:grid; place-items:center;
+  border-radius:var(--r-lg);
+  background:var(--accent-soft); color:var(--accent);
+  will-change:transform;
+  animation:bob 4.4s ease-in-out infinite alternate;
+}
+.step:nth-child(2) .step__icon{ animation-duration:5.2s; animation-delay:-1.4s; }
+.step:nth-child(3) .step__icon{ animation-duration:4.8s; animation-delay:-2.6s; }
+@keyframes bob{
+  from{ transform:translate3d(0,0,0); }
+  to  { transform:translate3d(0,-7px,0); }
+}
+.step__no{ margin-top:var(--space-6); font-size:12px; font-weight:600; letter-spacing:0.08em; color:var(--accent); }
+.step h3{ margin-top:var(--space-3); }
+.step p{ margin-top:var(--space-4); font-size:16px; line-height:1.5; color:var(--ink-75); text-wrap:pretty; }
+
+/* ==========================================================================
+   Pricing
+   ========================================================================== */
+.tiers{
+  display:grid; gap:var(--space-7);
+  margin-top:var(--space-8);
+  /* stretch so the three CTAs land on one line; the featured tier is
+     distinguished by its ring and scale, not by being a different height */
+  align-items:stretch;
+}
+@media (min-width:860px){ .tiers{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.tier{
+  position:relative;
+  display:flex; flex-direction:column;
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  padding:var(--space-7);
+  box-shadow:var(--shadow-raised);
+  transition:transform var(--t), box-shadow var(--t);
+}
+@media (min-width:600px){ .tier{ padding:var(--space-8); } }
+.tier:hover{ transform:translateY(-4px); box-shadow:inset 0 1px 0 #FFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float); }
+
+/* featured tier breathes, very slightly */
+.tier--featured{
+  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
+  will-change:transform;
+  animation:breathe 6s ease-in-out infinite;
+}
+.tier--featured:hover{
+  animation-play-state:paused;
+  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
+}
+@keyframes breathe{
+  0%,100%{ transform:scale(1); }
+  50%    { transform:scale(1.018); }
+}
+.tier__flag{
+  position:absolute; top:calc(var(--space-5) * -1); left:50%;
+  transform:translateX(-50%);
+  padding:var(--space-3) var(--space-6);
+  border-radius:var(--r-full);
+  background:var(--accent); color:#fff;
+  font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+  white-space:nowrap;
+}
+.tier__name{ font-size:14px; font-weight:600; color:var(--ink-60); }
+.tier__price{
+  margin-top:var(--space-5);
+  font-family:var(--font-display); font-weight:500;
+  font-size:clamp(2.75rem,6vw,3.5rem); line-height:1; letter-spacing:normal;
+}
+.tier__unit{ font-family:var(--font-body); font-size:15px; font-weight:500; color:var(--ink-60); letter-spacing:-0.02em; }
+.tier__for{ margin-top:var(--space-5); font-size:15px; line-height:1.45; color:var(--ink-75); text-wrap:pretty; }
+.tier__list{ margin:var(--space-7) 0 var(--space-8); display:grid; gap:var(--space-5); }
+.tier__item{ display:flex; align-items:flex-start; gap:var(--space-4); font-size:15px; line-height:1.45; color:var(--ink-75); }
+.tick{ flex:none; margin-top:2px; color:var(--accent); }
+.tick path{
+  fill:none; stroke:currentColor; stroke-width:2.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+/* drawn by default; JS pulls them back and lets them draw on scroll-in */
+.js .tick path{
+  stroke-dasharray:1; stroke-dashoffset:1;
+  transition:stroke-dashoffset 520ms var(--ease);
+  transition-delay:var(--td,0ms);
+}
+.js .is-in .tick path{ stroke-dashoffset:0; }
+.tier .btn{ width:100%; margin-top:auto; }
+
+/* ==========================================================================
+   Offer band
+   ========================================================================== */
+.offer{
+  position:relative; overflow:hidden; isolation:isolate;
+  border-radius:var(--r-3xl);
+  padding:var(--space-8) var(--space-7);
+  color:var(--on-dark);
+  background:linear-gradient(115deg,#5566F5 0%,#7B84EE 46%,#A896E0 78%,#E0A6C6 100%);
+  box-shadow:var(--shadow-float);
+  display:grid; gap:var(--space-7); align-items:center;
+  text-align:center;
+}
+@media (min-width:820px){
+  .offer{
+    grid-template-columns:1fr auto;
+    text-align:left;
+    padding:var(--space-9) var(--space-8);
+  }
+}
+.offer::before{
+  content:""; position:absolute; inset:-30%; z-index:-1;
+  background:
+    radial-gradient(38% 52% at 14% 16%, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0) 64%),
+    radial-gradient(44% 56% at 88% 84%, rgba(255,196,150,0.40) 0%, rgba(255,196,150,0) 66%);
+}
+.offer__tag{
+  display:inline-flex; align-items:center; gap:var(--space-3);
+  padding:var(--space-2) var(--space-5);
+  border-radius:var(--r-full);
+  background:rgba(255,255,255,0.18);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.32);
+  font-size:12px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+}
+.offer h2{ margin-top:var(--space-6); }
+.offer p{ margin-top:var(--space-7); font-size:16px; color:rgba(255,255,255,0.86); max-width:46ch; text-wrap:pretty; }
+@media (max-width:819px){ .offer p{ margin-inline:auto; } }
+
+/* ==========================================================================
+   Reviews — deliberate empty state, not invented quotes
+   ========================================================================== */
+.reviews{ display:grid; gap:var(--space-7); margin-top:var(--space-8); }
+@media (min-width:760px){ .reviews{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.review--empty{
+  border-radius:var(--r-2xl);
+  padding:var(--space-8) var(--space-7);
+  border:1.5px dashed var(--ink-15);
+  background:rgba(255,255,255,0.5);
+  text-align:center;
+}
+.review--empty svg{ margin:0 auto; color:var(--ink-15); }
+.review--empty p{ margin-top:var(--space-6); font-size:14px; line-height:1.5; color:var(--ink-60); text-wrap:pretty; }
+.review--empty span{ display:block; margin-top:var(--space-5); font-size:12px; font-weight:500; color:var(--ink-15); }
+
+/* ==========================================================================
+   Guarantee
+   ========================================================================== */
+.guarantee{
+  display:grid; gap:var(--space-8);
+  background:var(--surface);
+  border-radius:var(--r-3xl);
+  padding:var(--space-8) var(--space-7);
+  box-shadow:var(--shadow-raised);
+  align-items:center;
+}
+@media (min-width:820px){
+  .guarantee{ grid-template-columns:auto minmax(0,1fr); padding:var(--space-9) var(--space-8); gap:var(--space-9); }
+}
+.guarantee__seal{
+  width:96px; height:96px; margin-inline:auto;
+  display:grid; place-items:center;
+  border-radius:50%;
+  background:var(--accent-soft); color:var(--accent);
+  flex:none;
+}
+.guarantee h2{ margin-top:var(--space-5); }
+.guarantee h2{ max-width:26ch; }
+.guarantee p{ margin-top:var(--space-6); max-width:60ch; color:var(--ink-75); text-wrap:pretty; }
+.guarantee p + p{ margin-top:var(--space-5); }
+
+/* ==========================================================================
+   FAQ — <details> so it works with zero JS
+   ========================================================================== */
+.faq{ margin-top:var(--space-8); max-width:820px; }
+.faq details{
+  background:var(--surface);
+  border-radius:var(--r-xl);
+  box-shadow:var(--shadow-raised);
+  overflow:hidden;
+}
+.faq details + details{ margin-top:var(--space-5); }
+.faq summary{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-6);
+  padding:var(--space-7);
+  font-size:17px; font-weight:600; line-height:1.35;
+  cursor:pointer; list-style:none;
+  transition:color var(--t);
+}
+.faq summary::-webkit-details-marker{ display:none; }
+.faq summary:hover{ color:var(--accent); }
+.faq__sign{
+  flex:none; width:26px; height:26px;
+  display:grid; place-items:center;
+  border-radius:50%; background:var(--accent-soft); color:var(--accent);
+  transition:transform var(--t);
+}
+.faq details[open] .faq__sign{ transform:rotate(45deg); }
+.faq__a{
+  padding:0 var(--space-7) var(--space-7);
+  font-size:16px; line-height:1.55; color:var(--ink-75); text-wrap:pretty;
+  max-width:62ch;
+}
+
+/* ==========================================================================
+   Sticky book-now bar — pure CSS, present with or without JS
+   ========================================================================== */
+:root{ --bar-h:62px; }
+@media (min-width:600px){ :root{ --bar-h:70px; } }
+body{ padding-bottom:var(--bar-h); }
+
+.bar{
+  position:fixed; left:0; right:0; bottom:0; z-index:60;
+  min-height:var(--bar-h);
+  display:flex; align-items:center;
+  background:rgba(247,247,247,0.86);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  backdrop-filter:blur(20px) saturate(1.4);
+  box-shadow:0 -1px 0 var(--ink-10),0 -8px 30px -12px rgba(0,0,0,0.16);
+  padding-block:var(--space-3);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .bar{ background:rgba(247,247,247,0.98); }
+}
+.bar__inner{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-6);
+  width:100%;
+}
+.bar__copy{ min-width:0; }
+.bar__title{ font-size:15px; font-weight:600; line-height:1.25; }
+.bar__note{
+  display:flex; align-items:center; gap:var(--space-3);
+  margin-top:var(--space-1);
+  font-size:12.5px; font-weight:500; color:var(--ink-60);
+}
+.bar__dot{
+  width:6px; height:6px; border-radius:50%; flex:none;
+  background:#F0873F; box-shadow:0 0 0 3px rgba(240,135,63,0.22);
+}
+.bar .btn{ height:44px; padding-inline:var(--space-7); font-size:15px; flex:none; }
+@media (max-width:479px){
+  .bar__title{ font-size:14px; }
+  .bar__note{ font-size:11.5px; }
+  .bar .btn{ height:42px; padding-inline:var(--space-6); font-size:14px; }
+}
+
+/* ==========================================================================
+   One-time nudge
+   ========================================================================== */
+.nudge{
+  position:fixed; z-index:65;
+  left:var(--space-6); right:var(--space-6);
+  bottom:calc(var(--bar-h) + var(--space-5));
+  padding:var(--space-6) var(--space-7);
+  border-radius:var(--r-2xl);
+  background:var(--surface);
+  box-shadow:0 0 0 1px var(--ink-10),0 18px 44px -10px rgba(0,0,0,0.28);
+  display:flex; align-items:center; gap:var(--space-6);
+  /* hidden until JS opts it in; without JS it never renders at all */
+  display:none;
+}
+@media (min-width:600px){
+  .nudge{ left:var(--space-7); right:auto; width:352px; }
+}
+.js .nudge{ display:flex; opacity:0; transform:translateY(16px); pointer-events:none;
+  transition:opacity 420ms var(--ease), transform 420ms var(--ease); }
+.js .nudge.is-in{ opacity:1; transform:none; pointer-events:auto; }
+.nudge__icon{
+  width:38px; height:38px; flex:none;
+  display:grid; place-items:center; border-radius:var(--r-sm);
+  background:var(--accent-soft); color:var(--accent);
+}
+.nudge__title{ font-size:15px; font-weight:600; }
+.nudge__body{ margin-top:var(--space-2); font-size:13px; line-height:1.4; color:var(--ink-60); }
+.nudge__body a{ color:var(--accent); font-weight:600; text-decoration:underline; text-underline-offset:2px; }
+.nudge__x{
+  flex:none; align-self:flex-start;
+  width:28px; height:28px; margin:-4px -6px 0 0;
+  display:grid; place-items:center;
+  border:0; border-radius:50%; background:transparent; color:var(--ink-60);
+  cursor:pointer; transition:background-color var(--t), color var(--t);
+}
+.nudge__x:hover{ background:var(--ink-10); color:var(--ink); }
+
+/* ==========================================================================
+   Button life — sparkle on hover, pulse + shine on the nav CTA
+   ========================================================================== */
+.btn{ position:relative; }
+.btn--sparkle::after{
+  content:"";
+  position:absolute; top:-5px; right:2px;
+  width:13px; height:13px;
+  background:currentColor;
+  clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);
+  opacity:0; transform:scale(0.2) rotate(-40deg);
+  transition:opacity 260ms var(--ease), transform 380ms cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events:none;
+}
+.btn--sparkle:hover::after,.btn--sparkle:focus-visible::after{ opacity:1; transform:scale(1) rotate(0deg); }
+
+.nav__cta{
+  overflow:hidden;
+  will-change:transform;
+  animation:cta-pulse 3.6s ease-in-out infinite;
+}
+.nav__cta:hover{ animation-play-state:paused; }
+@keyframes cta-pulse{
+  0%,72%,100%{ transform:scale(1); }
+  84%        { transform:scale(1.045); }
+}
+.nav__cta::after{
+  content:""; position:absolute; top:0; bottom:0; left:0; width:45%;
+  background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 50%,rgba(255,255,255,0) 100%);
+  transform:translateX(-260%) skewX(-18deg);
+  animation:cta-shine 3.6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes cta-shine{
+  0%,55%{ transform:translateX(-260%) skewX(-18deg); }
+  85%,100%{ transform:translateX(360%) skewX(-18deg); }
+}
+
+/* ==========================================================================
+   Reveal — only applied when JS is on, so no-JS renders fully visible
+   ========================================================================== */
+.js .reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 600ms var(--ease), transform 600ms var(--ease);
+  transition-delay:var(--d,0ms);
+}
+.js .reveal.is-in{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .blob{ animation:none !important; }
+  /* swash arrives already drawn rather than not at all */
+  .swash path{ animation:none !important; stroke-dashoffset:0; }
+  .js .reveal{ transform:none; transition:opacity 300ms linear; }
+  .btn:hover,.card:hover,.card:focus-within{ transform:none; }
+  .card:hover .card__link svg{ transform:none; }
+  /* everything that loops or draws arrives at its resting state instead */
+  .step__icon,.tier--featured,.nav__cta,.nav__cta::after{ animation:none !important; }
+  .tier--featured{ transform:none; }
+  .js .tick path{ stroke-dashoffset:0 !important; transition:none; }
+  .btn--sparkle::after{ display:none; }
+  .step:hover,.tier:hover{ transform:none; }
+  .hero__media img{ transform:scale(1.08); }
+  .js .nudge{ transform:none; transition:opacity 200ms linear; }
+  *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- sentinel: drives the nav's scrolled state without a scroll listener -->
+<div id="top-sentinel" aria-hidden="true" style="position:absolute;top:0;height:1px;width:1px;"></div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#top" aria-label="Joe Solves Tech, back to top">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M9.6 1.4 3.1 9.1a.5.5 0 0 0 .38.82H7.1l-.7 4.78a.5.5 0 0 0 .89.38l6.5-7.7a.5.5 0 0 0-.38-.82H9.79l.7-4.78a.5.5 0 0 0-.89-.38Z" fill="#fff"/>
+        </svg>
+      </span>
+      <span class="brand__word">Joe Solves Tech</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Sections">
+      <a class="nav__link" href="#work" data-nav>Work</a>
+      <a class="nav__link" href="#pricing" data-nav>Pricing</a>
+      <a class="nav__link" href="#faq" data-nav data-hide-xs>FAQ</a>
+    </nav>
+
+    <a class="btn nav__cta" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ====================== HERO ====================== -->
+  <section class="hero">
+    <div class="hero__mesh" aria-hidden="true"></div>
+    <div class="blob blob--1" aria-hidden="true"></div>
+    <div class="blob blob--2" aria-hidden="true"></div>
+    <div class="blob blob--3" aria-hidden="true"></div>
+    <div class="hero__fade" aria-hidden="true"></div>
+
+    <div class="wrap hero__grid">
+      <div>
+        <p class="status reveal">
+          <span class="status__dot" aria-hidden="true"></span>
+          Taking on new projects
+        </p>
+
+        <h1 class="reveal" style="--d:80ms">I <span class="swash-word">build<svg class="swash" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 13.4c16.2-3.1 39.4-4.8 69.6-5.1 22.1-.2 45.9.5 71.4 2.2 17.6 1.2 34.6 2.9 51 5.1"/></svg></span> the small tech that small businesses actually need.</h1>
+
+        <p class="hero__sub reveal" style="--d:160ms">
+          AI and no-code systems that take the busywork off your plate.
+          Built by one person, so you talk to the person building it.
+        </p>
+
+        <div class="hero__actions reveal" style="--d:240ms">
+          <a class="btn btn--light btn--sparkle" href="#contact">Get in touch</a>
+          <a class="btn btn--ghost" href="#work">See the work</a>
+        </div>
+      </div>
+
+      <!-- Photo: Unsplash, free to use commercially, no attribution required.
+           The wrapper carries a warm gradient, so a failed load degrades to a
+           designed surface rather than a broken box. -->
+      <div class="hero__media reveal" style="--d:320ms">
+        <img
+          src="https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;w=900&amp;h=1125&amp;q=70"
+          alt="A small business owner in an apron, smiling at his phone behind his counter."
+          width="900" height="1125"
+          loading="eager" decoding="async"
+          data-parallax
+          onerror="this.remove()">
+
+        <aside class="glass booking" aria-label="Book a call">
+          <p class="booking__title">Free 20-minute call</p>
+          <p class="booking__body">Tell me the task you hate. I'll tell you straight if I can build it.</p>
+          <a class="btn btn--accent btn--sparkle" href="#contact">Book the call</a>
+          <p class="booking__meta">No deck. No discovery phase.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== HOW IT WORKS ================== -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">How it works</p>
+        <h2>Three steps. No deck, no discovery phase.</h2>
+        <p class="lead">
+          You are busy running the thing. The whole process is built so you spend
+          about an hour on it in total.
+        </p>
+      </div>
+
+      <div class="steps">
+        <article class="step reveal" style="--d:60ms">
+          <div class="step__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M21 12.4c0 4.2-4 7.6-9 7.6a10.6 10.6 0 0 1-2.9-.4L4 21l1.4-4.1A6.9 6.9 0 0 1 3 12.4C3 8.2 7 4.8 12 4.8s9 3.4 9 7.6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="step__no">STEP 01</p>
+          <h3>Tell me the task</h3>
+          <p>Twenty minutes on a call. You describe the part of the week you dread. I ask what happens before it and after it.</p>
+        </article>
+
+        <article class="step reveal" style="--d:120ms">
+          <div class="step__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M14.2 3 5.6 13.2a.7.7 0 0 0 .54 1.15h4.3l-.9 6.3a.7.7 0 0 0 1.25.51l8.6-10.2a.7.7 0 0 0-.54-1.15h-4.3l.9-6.3A.7.7 0 0 0 14.2 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="step__no">STEP 02</p>
+          <h3>I build it</h3>
+          <p>About a week. You get one message partway through with something you can click, so nothing is a surprise at the end.</p>
+        </article>
+
+        <article class="step reveal" style="--d:180ms">
+          <div class="step__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2.8 4 6.1v5.4c0 4.5 3.4 8.4 8 9.7 4.6-1.3 8-5.2 8-9.7V6.1l-8-3.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path d="m8.9 11.9 2.2 2.2 4.1-4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="step__no">STEP 03</p>
+          <h3>You own it</h3>
+          <p>Every account is in your name from day one. You get a short walkthrough video so whoever comes after me can pick it up.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== WORK ======================
+       Swap these three cards for real client work as it lands.
+       Keep the "Example build" badge until the work is real.
+  =================================================== -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">What I build</p>
+        <h2>Three problems I keep seeing, and how I solve them.</h2>
+        <p class="lead">
+          Every one of these started as somebody's least favorite hour of the week.
+          These are example builds, not client case studies.
+        </p>
+      </div>
+
+      <div class="grid">
+
+        <article class="card reveal" style="--d:60ms">
+          <div class="card__media">
+            <svg viewBox="0 0 400 250" role="img" aria-label="Abstract diagram of a form flowing through connected steps into an invoice">
+              <rect width="400" height="250" fill="none"/>
+              <path d="M78 125h72M222 125h72" stroke="#C9CFE4" stroke-width="2" stroke-dasharray="5 6" stroke-linecap="round"/>
+              <rect x="30" y="88" width="52" height="74" rx="10" fill="#fff" stroke="#D8DDEC" stroke-width="1.5"/>
+              <rect x="41" y="102" width="30" height="4" rx="2" fill="#C9CFE4"/>
+              <rect x="41" y="113" width="22" height="4" rx="2" fill="#C9CFE4"/>
+              <rect x="41" y="124" width="30" height="4" rx="2" fill="#C9CFE4"/>
+              <rect x="41" y="135" width="18" height="4" rx="2" fill="#C9CFE4"/>
+              <circle cx="186" cy="125" r="34" fill="#007AFF" opacity="0.10"/>
+              <circle cx="186" cy="125" r="22" fill="#007AFF" opacity="0.18"/>
+              <path d="M189 112l-11 15h9l-2 12 11-15h-9l2-12Z" fill="#007AFF"/>
+              <rect x="290" y="80" width="80" height="90" rx="12" fill="#fff" stroke="#D8DDEC" stroke-width="1.5"/>
+              <rect x="304" y="96" width="40" height="5" rx="2.5" fill="#B9C1DA"/>
+              <rect x="304" y="110" width="52" height="4" rx="2" fill="#DDE2EF"/>
+              <rect x="304" y="121" width="52" height="4" rx="2" fill="#DDE2EF"/>
+              <rect x="304" y="132" width="34" height="4" rx="2" fill="#DDE2EF"/>
+              <rect x="304" y="148" width="30" height="8" rx="4" fill="#007AFF" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="card__top">
+            <span class="card__no">01</span>
+            <span class="badge">Example build</span>
+          </div>
+          <h3>Intake to invoice, automated</h3>
+          <p class="card__body">
+            A home services company was retyping every new request into three places.
+            One form now creates the job, the quote, and the invoice. Nobody retypes anything.
+          </p>
+          <div class="tags">
+            <span class="tag">Airtable</span>
+            <span class="tag">Make</span>
+            <span class="tag">Stripe</span>
+          </div>
+          <span class="card__link">
+            Read the build
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </article>
+
+        <article class="card reveal" style="--d:120ms">
+          <div class="card__media">
+            <svg viewBox="0 0 400 250" role="img" aria-label="Abstract dashboard with a bar chart and summary panels">
+              <rect x="30" y="46" width="340" height="158" rx="14" fill="#fff" stroke="#D8DDEC" stroke-width="1.5"/>
+              <path d="M30 74h340" stroke="#E6EAF3" stroke-width="1.5"/>
+              <circle cx="46" cy="60" r="3.5" fill="#DDE2EF"/>
+              <circle cx="58" cy="60" r="3.5" fill="#DDE2EF"/>
+              <circle cx="70" cy="60" r="3.5" fill="#DDE2EF"/>
+              <rect x="48" y="92" width="66" height="42" rx="8" fill="#007AFF" opacity="0.10"/>
+              <rect x="60" y="106" width="30" height="5" rx="2.5" fill="#007AFF" opacity="0.55"/>
+              <rect x="60" y="118" width="42" height="4" rx="2" fill="#007AFF" opacity="0.3"/>
+              <rect x="126" y="92" width="66" height="42" rx="8" fill="#F1F3F9"/>
+              <rect x="138" y="106" width="26" height="5" rx="2.5" fill="#C3CADD"/>
+              <rect x="138" y="118" width="42" height="4" rx="2" fill="#DDE2EF"/>
+              <rect x="204" y="92" width="66" height="42" rx="8" fill="#F1F3F9"/>
+              <rect x="216" y="106" width="34" height="5" rx="2.5" fill="#C3CADD"/>
+              <rect x="216" y="118" width="42" height="4" rx="2" fill="#DDE2EF"/>
+              <rect x="48" y="150" width="16" height="34" rx="5" fill="#DDE2EF"/>
+              <rect x="74" y="140" width="16" height="44" rx="5" fill="#DDE2EF"/>
+              <rect x="100" y="158" width="16" height="26" rx="5" fill="#DDE2EF"/>
+              <rect x="126" y="132" width="16" height="52" rx="5" fill="#007AFF" opacity="0.75"/>
+              <rect x="152" y="148" width="16" height="36" rx="5" fill="#DDE2EF"/>
+              <rect x="178" y="138" width="16" height="46" rx="5" fill="#DDE2EF"/>
+              <rect x="286" y="150" width="66" height="34" rx="8" fill="#F1F3F9"/>
+              <rect x="286" y="92" width="66" height="46" rx="8" fill="#F1F3F9"/>
+            </svg>
+          </div>
+          <div class="card__top">
+            <span class="card__no">02</span>
+            <span class="badge">Example build</span>
+          </div>
+          <h3>The one dashboard that replaced five tabs</h3>
+          <p class="card__body">
+            An owner was checking Stripe, a spreadsheet, and two inboxes every morning
+            to answer one question. Now it is one page, and it updates itself.
+          </p>
+          <div class="tags">
+            <span class="tag">Sheets</span>
+            <span class="tag">Softr</span>
+            <span class="tag">Zapier</span>
+          </div>
+          <span class="card__link">
+            Read the build
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </article>
+
+        <article class="card reveal" style="--d:180ms">
+          <div class="card__media">
+            <svg viewBox="0 0 400 250" role="img" aria-label="Abstract chat bubbles with a clock, showing replies after hours">
+              <rect x="44" y="66" width="176" height="52" rx="16" fill="#fff" stroke="#D8DDEC" stroke-width="1.5"/>
+              <rect x="66" y="82" width="104" height="5" rx="2.5" fill="#C9CFE4"/>
+              <rect x="66" y="96" width="72" height="5" rx="2.5" fill="#DDE2EF"/>
+              <rect x="150" y="134" width="206" height="66" rx="16" fill="#007AFF" opacity="0.10"/>
+              <rect x="174" y="152" width="120" height="5" rx="2.5" fill="#007AFF" opacity="0.5"/>
+              <rect x="174" y="166" width="158" height="5" rx="2.5" fill="#007AFF" opacity="0.3"/>
+              <rect x="174" y="180" width="86" height="5" rx="2.5" fill="#007AFF" opacity="0.3"/>
+              <circle cx="316" cy="72" r="26" fill="#fff" stroke="#D8DDEC" stroke-width="1.5"/>
+              <path d="M316 58v15l9 5" stroke="#007AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="72" cy="176" r="5" fill="#DDE2EF"/>
+              <circle cx="90" cy="176" r="5" fill="#DDE2EF"/>
+              <circle cx="108" cy="176" r="5" fill="#DDE2EF"/>
+            </svg>
+          </div>
+          <div class="card__top">
+            <span class="card__no">03</span>
+            <span class="badge">Example build</span>
+          </div>
+          <h3>A quote bot that answers at 11pm</h3>
+          <p class="card__body">
+            Most of his leads came in after he put his kid to bed and went cold by morning.
+            An assistant trained on his own pricing answers first and books the call.
+          </p>
+          <div class="tags">
+            <span class="tag">Claude API</span>
+            <span class="tag">Webflow</span>
+            <span class="tag">Cal.com</span>
+          </div>
+          <span class="card__link">
+            Read the build
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== BY THE NUMBERS ==================
+       These are claims about HOW you work, not performance metrics.
+       A client count or a star rating would be invented — you have
+       neither yet. Swap these for real ones once the work is real.
+  ==================================================== -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="numbers reveal">
+        <div class="stat">
+          <div class="stat__rule" aria-hidden="true"></div>
+          <p class="stat__n" data-count>1 person</p>
+          <p class="stat__label">You talk to me. Not a project manager, not a team</p>
+        </div>
+        <div class="stat">
+          <div class="stat__rule" aria-hidden="true"></div>
+          <p class="stat__n" data-count>7 days</p>
+          <p class="stat__label">Typical build, from first call to something that works</p>
+        </div>
+        <div class="stat">
+          <div class="stat__rule" aria-hidden="true"></div>
+          <p class="stat__n" data-count>100%</p>
+          <p class="stat__label">Of the accounts and logins stay in your name, not mine</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== PRICING ======================
+       PLACEHOLDER PRICING. business.md lists the money model as an open
+       question (project fees vs retainer vs productised). Set these to
+       your real numbers before this page goes anywhere public.
+  ==================================================== -->
+  <section class="section" id="pricing">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">Pricing</p>
+        <h2>You know the price before I start.</h2>
+        <p class="lead">
+          Fixed price, agreed on the call. If the build takes me longer than I thought,
+          that is my problem, not your invoice.
+        </p>
+      </div>
+
+      <div class="tiers">
+
+        <article class="tier reveal" style="--d:60ms">
+          <p class="tier__name">One thing</p>
+          <p class="tier__price">$450</p>
+          <p class="tier__for">For the single task that eats the most time. Start here if you're not sure.</p>
+          <ul class="tier__list">
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:0ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>One automation, start to finish</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:90ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Built on the tools you already pay for</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:180ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Walkthrough video when it ships</span>
+            </li>
+          </ul>
+          <a class="btn btn--accent" href="#contact">Start here</a>
+        </article>
+
+        <article class="tier tier--featured reveal" style="--d:120ms">
+          <span class="tier__flag">Best value</span>
+          <p class="tier__name">The week</p>
+          <p class="tier__price">$1,200</p>
+          <p class="tier__for">The whole messy process, not one piece of it. Intake through to invoice.</p>
+          <ul class="tier__list">
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:0ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Up to three connected automations</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:90ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>One dashboard that replaces the tab-checking</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:180ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Two weeks of fixes after handover</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:270ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Every login in your name from day one</span>
+            </li>
+          </ul>
+          <a class="btn btn--accent btn--sparkle" href="#contact">Book the call</a>
+        </article>
+
+        <article class="tier reveal" style="--d:180ms">
+          <p class="tier__name">On call</p>
+          <p class="tier__price">$600<span class="tier__unit">/mo</span></p>
+          <p class="tier__for">For after the build. Things break, businesses change, you want someone who knows the setup.</p>
+          <ul class="tier__list">
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:0ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Fixes and tweaks, same week</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:90ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>One new automation a month</span>
+            </li>
+            <li class="tier__item">
+              <svg class="tick" width="19" height="19" viewBox="0 0 20 20" style="--td:180ms"><path pathLength="1" d="m4.6 10.4 3.5 3.5 7.3-7.6"/></svg>
+              <span>Cancel any month. No notice period.</span>
+            </li>
+          </ul>
+          <a class="btn btn--accent" href="#contact">Ask about this</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== OFFER BAND ====================== -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="offer reveal">
+        <div>
+          <span class="offer__tag">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 1.6 9.9 5.5l4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+            New client offer
+          </span>
+          <h2>$20 off your first build.</h2>
+          <p>
+            Mention it on the call and I take it off the invoice. It is not a lot of money.
+            It is just me making the first step easier to take.
+          </p>
+        </div>
+        <a class="btn btn--light btn--sparkle" href="#contact">Claim it on the call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== REVIEWS ======================
+       DELIBERATELY EMPTY. You have no clients yet, so there is nothing
+       honest to put here. Invented quotes and a star rating on a public
+       page are fabricated proof. Replace each card with a real quote,
+       a real first name, and what you actually built for them.
+  ==================================================== -->
+  <section class="section" id="reviews" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">Reviews</p>
+        <h2>No reviews yet. That is the honest answer.</h2>
+        <p class="lead">
+          I am new at this. The first person who hires me gets my full attention and a
+          price that reflects the risk they are taking on me.
+        </p>
+      </div>
+
+      <div class="reviews">
+        <div class="review--empty reveal" style="--d:60ms">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9.4 6.2c-2.6 1.3-4.3 3.7-4.3 6.6 0 2.6 1.6 4.3 3.7 4.3 2 0 3.4-1.5 3.4-3.4 0-1.9-1.3-3.3-3.1-3.3-.4 0-.8.1-.9.1.3-1.3 1.6-2.9 3.1-3.7l-1.9-.6ZM17.6 6.2c-2.6 1.3-4.3 3.7-4.3 6.6 0 2.6 1.6 4.3 3.7 4.3 2 0 3.4-1.5 3.4-3.4 0-1.9-1.3-3.3-3.1-3.3-.4 0-.8.1-.9.1.3-1.3 1.6-2.9 3.1-3.7l-1.9-.6Z" fill="currentColor"/>
+          </svg>
+          <p>Your first client's own words go here. What was broken, and what it is like now.</p>
+          <span>Waiting on client 01</span>
+        </div>
+        <div class="review--empty reveal" style="--d:120ms">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9.4 6.2c-2.6 1.3-4.3 3.7-4.3 6.6 0 2.6 1.6 4.3 3.7 4.3 2 0 3.4-1.5 3.4-3.4 0-1.9-1.3-3.3-3.1-3.3-.4 0-.8.1-.9.1.3-1.3 1.6-2.9 3.1-3.7l-1.9-.6ZM17.6 6.2c-2.6 1.3-4.3 3.7-4.3 6.6 0 2.6 1.6 4.3 3.7 4.3 2 0 3.4-1.5 3.4-3.4 0-1.9-1.3-3.3-3.1-3.3-.4 0-.8.1-.9.1.3-1.3 1.6-2.9 3.1-3.7l-1.9-.6Z" fill="currentColor"/>
+          </svg>
+          <p>Ask for one specific number. Hours saved, or how fast a quote goes out now.</p>
+          <span>Waiting on client 02</span>
+        </div>
+        <div class="review--empty reveal" style="--d:180ms">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9.4 6.2c-2.6 1.3-4.3 3.7-4.3 6.6 0 2.6 1.6 4.3 3.7 4.3 2 0 3.4-1.5 3.4-3.4 0-1.9-1.3-3.3-3.1-3.3-.4 0-.8.1-.9.1.3-1.3 1.6-2.9 3.1-3.7l-1.9-.6ZM17.6 6.2c-2.6 1.3-4.3 3.7-4.3 6.6 0 2.6 1.6 4.3 3.7 4.3 2 0 3.4-1.5 3.4-3.4 0-1.9-1.3-3.3-3.1-3.3-.4 0-.8.1-.9.1.3-1.3 1.6-2.9 3.1-3.7l-1.9-.6Z" fill="currentColor"/>
+          </svg>
+          <p>The best one to chase is whoever was most skeptical on the first call.</p>
+          <span>Waiting on client 03</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== GUARANTEE ====================== -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="guarantee reveal">
+        <div class="guarantee__seal" aria-hidden="true">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2.6 4 6v5.6c0 4.6 3.4 8.6 8 9.8 4.6-1.2 8-5.2 8-9.8V6l-8-3.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="m8.8 11.9 2.3 2.3 4.2-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <p class="eyebrow">The promise</p>
+          <h2>If it doesn't do what we agreed, you don't pay for it.</h2>
+          <p>
+            We write down what the thing has to do before I start. One sentence, plain English.
+            If what I hand you doesn't do that, you owe me nothing and you keep the work anyway.
+          </p>
+          <p>
+            I am not being generous. A developer once held our code hostage and it cost us the
+            business. I am never going to be the reason that happens to somebody else.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FAQ ====================== -->
+  <section class="section" id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">Questions</p>
+        <h2>The things people ask me first.</h2>
+      </div>
+
+      <div class="faq reveal" style="--d:60ms">
+        <details>
+          <summary>
+            I don't know what to automate. Where do we even start?
+            <span class="faq__sign" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p class="faq__a">
+            That is the normal starting point, and it's what the call is for. You don't need to
+            arrive with a spec. Tell me which hour of your week you dread most and we work
+            backwards from there. Nine times out of ten the answer is retyping something that
+            already exists somewhere else.
+          </p>
+        </details>
+
+        <details>
+          <summary>
+            What happens if you disappear?
+            <span class="faq__sign" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p class="faq__a">
+            Every account is created in your name and your email, on day one, not handed over at
+            the end. I don't hold a single login you can't reset without me. You also get a
+            walkthrough video so the next person can pick it up cold. I lost a business to a
+            developer who did the opposite, so this one is not negotiable for me.
+          </p>
+        </details>
+
+        <details>
+          <summary>
+            Do I have to switch off the tools I already use?
+            <span class="faq__sign" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p class="faq__a">
+            No. I would rather connect what you have than sell you a migration. If you run on
+            spreadsheets and a shared inbox, we build around spreadsheets and a shared inbox. The
+            only time I suggest moving is when the tool itself is the thing costing you the hours,
+            and then I will say so plainly and let you decide.
+          </p>
+        </details>
+
+        <details>
+          <summary>
+            What does it cost, and when do I pay?
+            <span class="faq__sign" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p class="faq__a">
+            Fixed price, agreed on the call before anything starts. Half up front, half when it
+            works and you have signed off. If it doesn't do what we wrote down, you don't pay
+            the second half and you keep what I built.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== ABOUT ====================== -->
+  <section class="section" id="about">
+    <div class="wrap about">
+      <div class="reveal">
+        <p class="eyebrow">About</p>
+        <h2>I lost a business because I couldn't build it myself.</h2>
+        <p>
+          My wife and I ran a company valued at 3 million. We paid a developer, he took our
+          code with him, and we had to close the doors. Bankruptcy, a new house, and a new
+          baby all landed in the same three years.
+        </p>
+        <p>
+          So I learned to build. Now I do it for owners who are one spreadsheet and four
+          browser tabs away from the same feeling. You will not get a deck or a discovery
+          phase. You get the thing, working, and you own all of it.
+        </p>
+        <p>
+          I still drive a school bus in the mornings. It keeps me honest about whose time
+          I am spending.
+        </p>
+      </div>
+
+      <div class="facts reveal" style="--d:120ms">
+        <div class="facts__row">
+          <span class="facts__k">Based in</span>
+          <span class="facts__v">United States, remote</span>
+        </div>
+        <div class="facts__row">
+          <span class="facts__k">Works with</span>
+          <span class="facts__v">Owner-run businesses</span>
+        </div>
+        <div class="facts__row">
+          <span class="facts__k">Typical build</span>
+          <span class="facts__v">About one week</span>
+        </div>
+        <div class="facts__row">
+          <span class="facts__k">You keep</span>
+          <span class="facts__v">Every account and login</span>
+        </div>
+        <div class="facts__row">
+          <span class="facts__k">Tools</span>
+          <span class="facts__v">Claude, Airtable, Make, Zapier</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CONTACT ====================== -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="contact reveal">
+        <p class="eyebrow">Contact</p>
+        <h2>Tell me the part of your week you hate.</h2>
+        <p>
+          Send me the one task that eats your Monday. If I can build it, I will tell you what
+          it takes. If I can't, I will tell you that too, and point you somewhere better.
+        </p>
+        <a class="btn btn--light" href="mailto:joedavini23@gmail.com?subject=Joe%20Solves%20Tech%20project">
+          Get in touch
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <p class="contact__alt">
+          Or email me directly at
+          <a href="mailto:joedavini23@gmail.com">joedavini23@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <p class="meta">© 2026 Joe Davini · Joe Solves Tech</p>
+    <nav class="footer__links" aria-label="Footer">
+      <a class="meta" href="#how">How it works</a>
+      <a class="meta" href="#work">Work</a>
+      <a class="meta" href="#pricing">Pricing</a>
+      <a class="meta" href="#faq">FAQ</a>
+      <a class="meta" href="#about">About</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- Sticky book-now bar. CSS-only, so it is there with or without JS.
+     "3 slots" must be TRUE the day you publish. Set it to your real
+     number or change the line — a fake countdown is the one thing
+     that will cost you trust with this audience. -->
+<div class="bar">
+  <div class="wrap bar__inner">
+    <div class="bar__copy">
+      <p class="bar__title">Free 20-minute call</p>
+      <p class="bar__note">
+        <span class="bar__dot" aria-hidden="true"></span>
+        3 build slots open this week
+      </p>
+    </div>
+    <a class="btn btn--accent btn--sparkle" href="#contact">Book now</a>
+  </div>
+</div>
+
+<!-- One-time nudge. JS-only by design: display:none until the script opts it in. -->
+<aside class="nudge" id="nudge" role="complementary" aria-label="Offer reminder">
+  <span class="nudge__icon" aria-hidden="true">
+    <svg width="19" height="19" viewBox="0 0 16 16" fill="none">
+      <path d="M8 1.6 9.9 5.5l4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  <div>
+    <p class="nudge__title">Still deciding?</p>
+    <p class="nudge__body">$20 off your first build. <a href="#contact">Take the call</a> and mention it.</p>
+  </div>
+  <button class="nudge__x" id="nudge-close" type="button" aria-label="Dismiss">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </button>
+</aside>
+
+<script>
+(function () {
+  "use strict";
+
+  var nav = document.getElementById("nav");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hasIO = "IntersectionObserver" in window;
+
+  /* Fallback: no IntersectionObserver means no reveal gating at all. */
+  if (!hasIO) {
+    document.documentElement.classList.remove("js");
+    return;
+  }
+
+  /* 1. Nav frosted state, driven by a sentinel instead of a scroll listener. */
+  var sentinel = document.getElementById("top-sentinel");
+  new IntersectionObserver(function (entries) {
+    nav.classList.toggle("is-scrolled", !entries[0].isIntersecting);
+  }, { threshold: 0 }).observe(sentinel);
+
+  /* 2. Fade-up reveals. Unobserve once shown so nothing keeps running. */
+  var revealObserver = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-in");
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+  document.querySelectorAll(".reveal").forEach(function (el) {
+    if (reduce) el.style.setProperty("--d", "0ms");
+    revealObserver.observe(el);
+  });
+
+  /* 3. Active nav link. */
+  var links = Array.prototype.slice.call(document.querySelectorAll("[data-nav]"));
+  var sections = links
+    .map(function (link) { return document.querySelector(link.getAttribute("href")); })
+    .filter(Boolean);
+
+  /* Track every section currently crossing the mid-viewport band, then pick the
+     last one in document order. Toggling per-entry lets a stale batch win. */
+  var visible = [];
+
+  var activeObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var i = visible.indexOf(entry.target);
+      if (entry.isIntersecting && i === -1) visible.push(entry.target);
+      if (!entry.isIntersecting && i !== -1) visible.splice(i, 1);
+    });
+
+    var current = sections.filter(function (s) { return visible.indexOf(s) !== -1; }).pop();
+
+    links.forEach(function (link) {
+      link.classList.toggle(
+        "is-active",
+        !!current && link.getAttribute("href") === "#" + current.id
+      );
+    });
+  }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+
+  sections.forEach(function (section) { activeObserver.observe(section); });
+
+  /* 4. Count-up. The final value already lives in the HTML, so with JS off
+        (or reduced motion on) the number is simply correct and static. */
+  if (!reduce) {
+    var countObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        run(entry.target);
+      });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll("[data-count]").forEach(function (el) {
+      countObserver.observe(el);
+    });
+  }
+
+  function run(el) {
+    var original = el.textContent.trim();
+    var parts = original.match(/^([\d,.]+)(.*)$/);
+    if (!parts) return;
+    var target = parseFloat(parts[1].replace(/,/g, ""));
+    var tail = parts[2];
+    if (!isFinite(target)) return;
+
+    var started = null;
+    var duration = 1100;
+    var done = false;
+
+    /* Always lands on the string the HTML actually authored. */
+    function finish() {
+      if (done) return;
+      done = true;
+      el.textContent = original;
+    }
+
+    function loop(t) {
+      if (done) return;
+      if (started === null) started = t;
+      var p = Math.min((t - started) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      if (p < 1) {
+        el.textContent = Math.round(target * eased).toLocaleString() + tail;
+        requestAnimationFrame(loop);
+      } else {
+        finish();
+      }
+    }
+
+    /* rAF stops in background tabs and under low-power throttling. Without
+       this the number could strand mid-count and never reach its value. */
+    setTimeout(finish, duration + 400);
+    requestAnimationFrame(loop);
+  }
+
+  /* 5. Draw-on checkmarks: same reveal observer pattern, per tier. */
+  var tickObserver = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-in");
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll(".tier").forEach(function (t) { tickObserver.observe(t); });
+
+  /* 6. One rAF loop shared by the progress bar and the hero parallax.
+        Scroll writes a flag; the frame does the work. Two transform
+        writes per frame, maximum, and nothing at all while idle. */
+  var progress = document.getElementById("progress");
+  var parallax = reduce ? null : document.querySelector("[data-parallax]");
+  var ticking = false;
+
+  function onFrame() {
+    ticking = false;
+    maybeNudge();
+    var y = window.pageYOffset;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+
+    if (progress) {
+      progress.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+    }
+    if (parallax) {
+      /* clamped so the image never drifts past its 8% overscan */
+      var shift = Math.max(Math.min(y * 0.06, 48), -48);
+      parallax.style.transform = "scale(1.08) translate3d(0," + shift + "px,0)";
+    }
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(onFrame);
+  }
+
+  /* 7. One-time nudge, once the visitor has scrolled clear of pricing.
+        Checked straight off the scroll event rather than through an
+        IntersectionObserver edge case, so the trigger is deterministic. */
+  var nudge = document.getElementById("nudge");
+  var pricing = document.getElementById("pricing");
+  var hideTimer = null;
+  var fired = false;
+
+  try { fired = sessionStorage.getItem("jst-nudge") === "1"; } catch (e) { /* blocked */ }
+
+  function dismiss() {
+    if (!nudge) return;
+    nudge.classList.remove("is-in");
+    if (hideTimer) clearTimeout(hideTimer);
+    try { sessionStorage.setItem("jst-nudge", "1"); } catch (e) {}
+  }
+
+  function maybeNudge() {
+    if (fired || !nudge || !pricing) return;
+    /* pricing has fully cleared the top of the viewport */
+    if (pricing.getBoundingClientRect().bottom > 0) return;
+    fired = true;
+    try { sessionStorage.setItem("jst-nudge", "1"); } catch (e) {}
+    nudge.classList.add("is-in");
+    hideTimer = setTimeout(function () { nudge.classList.remove("is-in"); }, 12000);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  onFrame();
+
+  var closeBtn = document.getElementById("nudge-close");
+  if (closeBtn) closeBtn.addEventListener("click", dismiss);
+})();
+</script>
+
+</body>
+</html>

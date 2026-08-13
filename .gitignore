@@ -1,0 +1,18 @@
+# This repo is PUBLIC and lives inside a folder that also holds private notes
+# (business.md, soul.md, audience.md, CLAUDE.md). So the rule is inverted:
+# ignore everything, then allow only the site files by name. A new private file
+# dropped in this folder is ignored by default rather than published by accident.
+
+*
+!*/
+
+!.gitignore
+!README.md
+!joe-solves-tech.html
+!joe-solves-tech-before.html
+!compare.html
+!.claude/serve.js
+!.claude/launch.json
+
+# never publish the build output
+.deploy/

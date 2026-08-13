@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static-site",
+      "runtimeExecutable": "/Users/joedavini/.local/bin/node",
+      "runtimeArgs": ["/Users/joedavini/Desktop/claude/.claude/serve.js"],
+      "port": 8000
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joe Solves Tech — before / after</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000; --bg:#F7F7F7; --accent:#007AFF; --violet:#5566F5; --rose:#E0A6C6;
+    --bar:64px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:Inter,system-ui,sans-serif; letter-spacing:-0.02em;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  header{
+    height:var(--bar); flex:none;
+    display:flex; align-items:center; gap:20px;
+    padding-inline:20px;
+    background:#fff; box-shadow:0 1px 0 rgba(0,0,0,0.1);
+  }
+  h1{ margin:0; font-size:15px; font-weight:600; display:flex; align-items:center; gap:10px; white-space:nowrap; }
+  .dot{ width:10px;height:10px;border-radius:50%;
+        background:linear-gradient(135deg,var(--violet),var(--rose)); }
+  .controls{ margin-left:auto; display:flex; align-items:center; gap:16px; }
+  label{ display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500; color:rgba(0,0,0,0.6); cursor:pointer; }
+  .jump{ display:flex; gap:4px; }
+  .jump button{
+    font:inherit; font-size:12px; font-weight:500;
+    padding:6px 10px; border:0; border-radius:50px; cursor:pointer;
+    background:rgba(0,0,0,0.06); color:rgba(0,0,0,0.7);
+    transition:background 150ms, color 150ms;
+  }
+  .jump button:hover{ background:var(--accent); color:#fff; }
+  .jump button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .controls[hidden]{ display:none; }
+
+  /* Shown only when the page can't script into the frames (file:// origins). */
+  .notice{
+    margin-left:auto; display:none; align-items:center; gap:10px;
+    font-size:13px; line-height:1.3; color:rgba(0,0,0,0.7);
+  }
+  .notice code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px;
+    background:rgba(0,122,255,0.1); color:var(--accent);
+    padding:4px 8px; border-radius:6px; user-select:all;
+  }
+  body.is-isolated .notice{ display:flex; }
+  body.is-isolated .controls{ display:none; }
+
+  .panes{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(0,0,0,0.12); min-height:0; }
+  .pane{ position:relative; background:var(--bg); min-width:0; display:flex; flex-direction:column; }
+  .tag{
+    position:absolute; top:12px; left:12px; z-index:2;
+    padding:5px 12px; border-radius:50px;
+    font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+    color:#fff; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  }
+  .tag--before{ background:rgba(0,0,0,0.55); }
+  .tag--after{ background:var(--accent); }
+  iframe{ flex:1; width:100%; border:0; display:block; }
+  @media (max-width:820px){
+    .panes{ grid-template-columns:1fr; grid-template-rows:1fr 1fr; }
+    .jump{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="dot" aria-hidden="true"></span> Joe Solves Tech — before / after</h1>
+
+  <div class="controls" id="controls">
+    <div class="jump">
+      <button type="button" data-to="top">Hero</button>
+      <button type="button" data-to="how">How it works</button>
+      <button type="button" data-to="work">Work</button>
+      <button type="button" data-to="pricing">Pricing</button>
+      <button type="button" data-to="faq">FAQ</button>
+    </div>
+    <label><input type="checkbox" id="sync" checked> Sync scroll</label>
+  </div>
+
+  <p class="notice">
+    Scroll each side on its own. For synced scrolling and jump buttons, open
+    <code>http://localhost:8000/compare.html</code>
+  </p>
+</header>
+
+<div class="panes">
+  <div class="pane">
+    <span class="tag tag--before">Before</span>
+    <iframe id="a" src="joe-solves-tech-before.html" title="Before"></iframe>
+  </div>
+  <div class="pane">
+    <span class="tag tag--after">After</span>
+    <iframe id="b" src="joe-solves-tech.html" title="After"></iframe>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var a = document.getElementById("a"), b = document.getElementById("b");
+  var sync = document.getElementById("sync");
+
+  /* Same-document access is blocked when the pages are loaded from file://,
+     where every file gets its own opaque origin. Detect that once and fall
+     back to two plain, independently scrollable frames. */
+  function docOf(f) {
+    try {
+      var d = f.contentDocument;
+      /* touching a property is what actually throws on a blocked frame */
+      return d && d.body ? d : null;
+    } catch (e) { return null; }
+  }
+  function scrollerOf(f) {
+    var d = docOf(f);
+    return d ? (d.scrollingElement || d.documentElement) : null;
+  }
+
+  /* Scroll a frame without triggering the site's own smooth-scroll, which
+     would animate for hundreds of ms and fight the sync loop. */
+  function setScroll(f, top) {
+    var d = docOf(f), s = scrollerOf(f);
+    if (!d || !s) return;
+    var root = d.documentElement;
+    var prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    s.scrollTop = top;
+    root.style.scrollBehavior = prev;
+  }
+
+  /* Below-fold content is gated on an IntersectionObserver; force it so both
+     sides show the same amount of page at any scroll position. */
+  function unveil(f) {
+    var d = docOf(f);
+    if (!d) return;
+    d.querySelectorAll(".reveal, .tier").forEach(function (el) {
+      el.classList.add("is-in");
+    });
+  }
+
+  var driving = false;   /* set while we move a frame ourselves */
+  var release = null;
+
+  function hold(ms) {
+    driving = true;
+    clearTimeout(release);
+    release = setTimeout(function () { driving = false; }, ms || 90);
+  }
+
+  function follow(src, dst) {
+    var d = docOf(src);
+    if (!d) return;
+    d.addEventListener("scroll", function () {
+      if (!sync.checked || driving) return;
+      var ss = scrollerOf(src), ds = scrollerOf(dst);
+      if (!ss || !ds) return;
+      hold();
+      /* proportional, so the two differing page heights stay aligned */
+      var maxS = ss.scrollHeight - ss.clientHeight;
+      var maxD = ds.scrollHeight - ds.clientHeight;
+      setScroll(dst, maxS > 0 ? (ss.scrollTop / maxS) * maxD : 0);
+    }, { passive: true });
+  }
+
+  function jump(id) {
+    hold(260);
+    [a, b].forEach(function (f) {
+      var d = docOf(f), s = scrollerOf(f);
+      if (!d || !s) return;
+      unveil(f);
+      if (id === "top") { setScroll(f, 0); return; }
+      var el = d.getElementById(id);
+      if (el) setScroll(f, el.getBoundingClientRect().top + s.scrollTop - 30);
+    });
+  }
+
+  function wire(f, other) {
+    unveil(f);
+    follow(f, other);
+  }
+
+  /* A frame may already be complete before this script runs, in which case its
+     load event never fires again — so run setup now as well as on load. */
+  function ready(f, fn) {
+    if (docOf(f) && docOf(f).readyState === "complete") fn();
+    f.addEventListener("load", fn);
+  }
+
+  ready(a, function () { wire(a, b); });
+  ready(b, function () { wire(b, a); });
+
+  document.querySelectorAll(".jump button").forEach(function (btn) {
+    btn.addEventListener("click", function () { jump(btn.getAttribute("data-to")); });
+  });
+
+  /* Settle, then decide which mode we're in and re-force the reveals for the
+     case where the frame was interactive but its own script hadn't yet run. */
+  setTimeout(function () {
+    var isolated = !docOf(a) || !docOf(b);
+    document.body.classList.toggle("is-isolated", isolated);
+    if (!isolated) { unveil(a); unveil(b); }
+  }, 700);
+})();
+</script>
+</body>
+</html>
