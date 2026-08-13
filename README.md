@@ -20,6 +20,13 @@ The comparison viewer is available at http://localhost:8000/compare/ while the
 development server is running. It compares the preserved original design with
 the latest generated site.
 
+The public working demos are available at http://localhost:8000/demo/. They use
+a fictional home-cleaning company and browser-local synthetic data, so visitors
+can safely complete the intake-to-invoice flow, update the owner dashboard, and
+use the guarded estimate assistant. The modules under `src/static/demo/js/`
+separate pricing, data storage, and each experience so real services can replace
+the local sandbox later without rebuilding the interface.
+
 ## Project structure
 
 | Path | Purpose |
