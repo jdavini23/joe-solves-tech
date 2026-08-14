@@ -28,7 +28,7 @@ test("build is deterministic and structurally complete", () => {
   const html = fs.readFileSync(path.join(DIST, "index.html"), "utf8");
   assert.doesNotMatch(html, /@include/);
   assert.match(html, /<html lang="en" class="no-js">/);
-  assert.match(html, /<meta name="google-site-verification" content="AozBqrDRRiMvP3OQgwE9v5x1oOU5LGi8K-3g94HMZTU">/);
+  assert.match(html, /<meta name="google-site-verification" content="SS6mQtMWEG7Ha2XUVj7lNdXq0fzernp1-D0n4_Y9nBs">/);
   assert.match(html, /document\.documentElement\.className = "js"/);
   assert.match(html, /<script type="module" src="\/assets\/js\/main\.js"><\/script>/);
   const ids = Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]);
