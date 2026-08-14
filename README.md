@@ -57,6 +57,24 @@ Vercel runs `npm run build` and publishes only `dist/`, as configured in
 `vercel.json`. The production entry point is `dist/index.html` and is served
 at `/`.
 
+### Google Analytics
+
+Create a GA4 web data stream, then add its measurement ID (the value beginning
+with `G-`) to Vercel as an environment variable named `GA_MEASUREMENT_ID`.
+Redeploy the site after saving it. The build adds the Google tag to every public
+HTML page only when that variable is present.
+
+For a local production-style check, run:
+
+```bash
+GA_MEASUREMENT_ID=G-XXXXXXXXXX npm run build
+```
+
+In addition to GA4's automatic page views, the landing page records
+`contact_cta_click` when a visitor opens the contact section and the recommended
+`generate_lead` event when they click an email link. No analytics requests are
+made by ordinary local builds without the environment variable.
+
 ## Status
 
 Early. The three project cards are labelled example builds rather than client

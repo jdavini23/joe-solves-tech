@@ -4,7 +4,7 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
-const { build, renderTemplate, DIST } = require("../scripts/build");
+const { build, injectAnalytics, renderTemplate, DIST } = require("../scripts/build");
 const { createDevServer } = require("../scripts/dev-server");
 
 function digestDirectory(directory) {
@@ -28,6 +28,7 @@ test("build is deterministic and structurally complete", () => {
   const html = fs.readFileSync(path.join(DIST, "index.html"), "utf8");
   assert.doesNotMatch(html, /@include/);
   assert.match(html, /<html lang="en" class="no-js">/);
+  assert.match(html, /<meta name="google-site-verification" content="AozBqrDRRiMvP3OQgwE9v5x1oOU5LGi8K-3g94HMZTU">/);
   assert.match(html, /document\.documentElement\.className = "js"/);
   assert.match(html, /<script type="module" src="\/assets\/js\/main\.js"><\/script>/);
   const ids = Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]);
@@ -44,6 +45,23 @@ test("build is deterministic and structurally complete", () => {
 test("template includes reject missing and escaped paths", () => {
   assert.throws(() => renderTemplate('<!-- @include "../README.md" -->'), /outside approved/);
   assert.throws(() => renderTemplate('<!-- @include "sections/missing.html" -->'), /Missing include/);
+});
+
+test("Google Analytics is enabled only with a valid measurement ID", () => {
+  const source = "<html><head><title>Test</title></head><body></body></html>";
+  assert.equal(injectAnalytics(source), source);
+  const tracked = injectAnalytics(source, "g-abc123");
+  assert.match(tracked, /googletagmanager\.com\/gtag\/js\?id=G-ABC123/);
+  assert.match(tracked, /gtag\("config", "G-ABC123"\)/);
+  assert.throws(() => injectAnalytics(source, "UA-12345"), /GA_MEASUREMENT_ID/);
+});
+
+test("configured analytics is added to every public HTML page", () => {
+  build({ measurementId: "G-ABC123" });
+  for (const relativePath of ["index.html", "demo/index.html"]) {
+    const html = fs.readFileSync(path.join(DIST, relativePath), "utf8");
+    assert.match(html, /gtag\("config", "G-ABC123"\)/, relativePath);
+  }
 });
 
 test("all JavaScript module imports resolve", () => {
