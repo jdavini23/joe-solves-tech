@@ -6,6 +6,7 @@ const ROOT = path.resolve(__dirname, "..");
 const SRC = path.join(ROOT, "src");
 const DIST = path.join(ROOT, "dist");
 const INCLUDE = /<!--\s*@include\s+"([^"]+)"\s*-->/g;
+const GA_MEASUREMENT_ID = /^G-[A-Z0-9]+$/;
 const CSS_FILES = [
   "01-tokens.css",
   "02-base.css",
@@ -60,7 +61,43 @@ function copyDirectory(source, destination) {
   }
 }
 
-function build() {
+function analyticsTag(measurementId) {
+  if (!measurementId) return "";
+  const id = measurementId.trim().toUpperCase();
+  if (!GA_MEASUREMENT_ID.test(id)) {
+    throw new Error("GA_MEASUREMENT_ID must look like G-XXXXXXXXXX");
+  }
+  return [
+    `<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>`,
+    "<script>",
+    "  window.dataLayer = window.dataLayer || [];",
+    "  function gtag(){dataLayer.push(arguments);}",
+    "  gtag(\"js\", new Date());",
+    `  gtag("config", "${id}");`,
+    "</script>"
+  ].join("\n");
+}
+
+function injectAnalytics(html, measurementId) {
+  const tag = analyticsTag(measurementId);
+  if (!tag) return html;
+  if (!html.includes("</head>")) throw new Error("Cannot add Google Analytics to an HTML file without </head>");
+  return html.replace("</head>", tag + "\n</head>");
+}
+
+function injectAnalyticsIntoDirectory(directory, measurementId) {
+  if (!measurementId) return;
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const file = path.join(directory, entry.name);
+    if (entry.isDirectory()) injectAnalyticsIntoDirectory(file, measurementId);
+    else if (entry.isFile() && path.extname(entry.name) === ".html") {
+      fs.writeFileSync(file, injectAnalytics(fs.readFileSync(file, "utf8"), measurementId));
+    }
+  }
+}
+
+function build(options = {}) {
+  const measurementId = options.measurementId === undefined ? process.env.GA_MEASUREMENT_ID : options.measurementId;
   const template = fs.readFileSync(path.join(SRC, "index.html"), "utf8");
   const html = renderTemplate(template);
   if (INCLUDE.test(html)) throw new Error("Unresolved include directive in generated HTML");
@@ -72,6 +109,7 @@ function build() {
   copyDirectory(path.join(SRC, "scripts"), path.join(DIST, "assets", "js"));
   const staticDirectory = path.join(SRC, "static");
   if (fs.existsSync(staticDirectory)) copyDirectory(staticDirectory, DIST);
+  injectAnalyticsIntoDirectory(DIST, measurementId);
   return DIST;
 }
 
@@ -79,4 +117,4 @@ if (require.main === module) {
   build();
   console.log("Built " + path.relative(ROOT, DIST));
 }
-module.exports = { build, renderTemplate, DIST, ROOT };
+module.exports = { analyticsTag, build, injectAnalytics, renderTemplate, DIST, ROOT };
