@@ -34,6 +34,10 @@
   --on-dark:#FFFFFF;
   --on-dark-75:rgba(255,255,255,0.75);
   --button-ink:#535398;
+  /* derived — --violet pushed toward black; the shade the hero's image
+     vignette and glass shadows already use. Scrims white-on-gradient copy. */
+  --indigo-deep:rgb(30,22,70);
+  --scrim:rgba(30,22,70,0.5);
 
   /* type */
   --font-display:"Playfair Display", Georgia, serif;

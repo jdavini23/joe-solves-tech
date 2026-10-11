@@ -35,7 +35,7 @@
 .blob--1{
   width:62vw; height:62vw; max-width:640px; max-height:640px;
   top:-14%; left:-12%;
-  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 42%, rgba(255,255,255,0) 70%);
+  background:radial-gradient(circle at 50% 50%, rgba(224,166,198,0.5) 0%, rgba(224,166,198,0.18) 42%, rgba(224,166,198,0) 70%);
   animation:drift-a 32s var(--ease) infinite alternate;
 }
 .blob--2{
@@ -63,6 +63,26 @@
   to  { transform:translate3d(8vw,-9vh,0) scale(1.12); }
 }
 
+/* copy scrim — the lavender midtones and drifting white highlights sit
+   at ~2.6:1 behind white text. A deep-indigo wash weighted to the copy
+   column holds every pixel behind the h1, subhead and pills above 4.5:1.
+   Painted after the blobs (same z-index, later in tree order) so their
+   highlights can never drift back over the text. Fades out before the
+   bottom blend so it never darkens the hand-off to --bg. */
+.hero::after{
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:
+    linear-gradient(180deg, var(--scrim) 0%, var(--scrim) 70%, rgba(30,22,70,0) 92%);
+}
+@media (min-width:960px){
+  .hero::after{
+    background:
+      linear-gradient(90deg, var(--scrim) 0%, var(--scrim) 56%, rgba(30,22,70,0) 80%);
+    -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 120px),transparent calc(100% - 20px));
+            mask-image:linear-gradient(180deg,#000 calc(100% - 120px),transparent calc(100% - 20px));
+  }
+}
+
 /* blend the hero into the page */
 .hero__fade{
   position:absolute; left:0; right:0; bottom:0; height:140px; z-index:-1;
@@ -83,7 +103,7 @@
   display:inline-flex; align-items:center; gap:var(--space-3);
   height:34px; padding-inline:var(--space-5) var(--space-6);
   border-radius:var(--r-full);
-  background:rgba(255,255,255,0.16);
+  background:rgba(30,22,70,0.22);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,0.34);
   font-size:var(--t-label); font-weight:500; color:var(--on-dark);
 }
@@ -122,13 +142,21 @@
   max-width:34ch;
   font-size:var(--t-lead);
   line-height:1.5;
-  color:rgba(255,255,255,0.86);
+  color:var(--on-dark);
   text-wrap:pretty;
 }
 .hero__actions{
   display:flex; flex-wrap:wrap; gap:var(--space-5);
   margin-top:var(--space-8);
 }
+/* the global accent ring vanishes on the gradient (~1.3:1); white holds
+   above 3:1 against the scrim */
+.hero__copy :focus-visible{ outline-color:var(--on-dark); }
+
+/* ghost pill: a dark wash, not a white one — white-on-white-tint was ~2.2:1 */
+.hero .btn--ghost{ background:rgba(30,22,70,0.22); }
+.hero .btn--ghost:hover{ background:rgba(30,22,70,0.32); }
+
 /* stacked pills read as ragged at auto width; match them instead */
 @media (max-width:479px){
   .hero__actions{ display:grid; gap:var(--space-5); }
