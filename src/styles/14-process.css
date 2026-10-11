@@ -29,6 +29,6 @@
   from{ transform:translate3d(0,0,0); }
   to  { transform:translate3d(0,-7px,0); }
 }
-.step__no{ margin-top:var(--space-6); font-size:var(--t-meta); font-weight:600; letter-spacing:0.08em; color:var(--accent); }
+.step__no{ margin-top:var(--space-6); font-size:var(--t-meta); font-weight:600; letter-spacing:0.08em; color:var(--accent-ink); }
 .step h3{ margin-top:var(--space-3); }
 .step p{ margin-top:var(--space-4); font-size:var(--t-body); line-height:1.5; color:var(--ink-75); text-wrap:pretty; }

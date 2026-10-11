@@ -40,7 +40,7 @@
   transform:translateX(-50%);
   padding:var(--space-3) var(--space-6);
   border-radius:var(--r-full);
-  background:var(--accent); color:#fff;
+  background:var(--accent-fill); color:var(--on-dark);
   font-size:var(--t-meta); font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
   white-space:nowrap;
 }

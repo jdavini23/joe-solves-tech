@@ -17,7 +17,7 @@
   transition:color var(--t);
 }
 .faq summary::-webkit-details-marker{ display:none; }
-.faq summary:hover{ color:var(--accent); }
+.faq summary:hover{ color:var(--accent-ink); }
 .faq__sign{
   flex:none; width:26px; height:26px;
   display:grid; place-items:center;
