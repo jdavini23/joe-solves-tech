@@ -27,6 +27,10 @@
   --surface-glass:rgba(255,255,255,0.6);
   --surface-glass-strong:rgba(255,255,255,0.8);
   --accent-soft:rgba(0,122,255,0.10);
+  /* derived — --accent deepened just enough to carry white button labels
+     (4.97:1; #007AFF itself is 4.02:1). Fills only; --accent stays for
+     strokes, rings and tints. */
+  --accent-fill:#006CE0;
   --ink-75:rgba(0,0,0,0.75);
   --ink-60:rgba(0,0,0,0.6);
   --ink-15:rgba(0,0,0,0.15);
