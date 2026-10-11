@@ -18,6 +18,14 @@ body{ padding-bottom:var(--bar-h); }
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .bar{ background:rgba(247,247,247,0.98); }
 }
+/* JS-on only: tucked away while the hero (and its own CTAs) is on screen.
+   visibility keeps the hidden "Book now" out of the tab order. */
+.bar{ transition:transform 300ms var(--ease), visibility 0s linear 0s; }
+.bar.is-docked{
+  transform:translateY(100%);
+  visibility:hidden;
+  transition:transform 300ms var(--ease), visibility 0s linear 300ms;
+}
 .bar__inner{
   display:flex; align-items:center; justify-content:space-between; gap:var(--space-6);
   width:100%;

@@ -32,10 +32,16 @@
            designed surface rather than a broken box. -->
       <div class="hero__media reveal" style="--d:320ms">
         <img
-          src="https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;w=900&amp;h=1125&amp;q=70"
+          src="https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;q=70&amp;w=864&amp;h=1080"
+          srcset="https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;q=70&amp;w=400&amp;h=500 400w,
+            https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;q=70&amp;w=640&amp;h=800 640w,
+            https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;q=70&amp;w=864&amp;h=1080 864w,
+            https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;q=70&amp;w=1200&amp;h=1500 1200w,
+            https://images.unsplash.com/photo-1687422808248-f807f4ea2a2e?auto=format&amp;fit=crop&amp;crop=faces,center&amp;q=70&amp;w=1600&amp;h=2000 1600w"
+          sizes="(min-width: 1200px) 432px, (min-width: 960px) calc((100vw - 120px) * 0.4), calc(100vw - 40px)"
           alt="A small business owner in an apron, smiling at his phone behind his counter."
-          width="900" height="1125"
-          loading="eager" decoding="async"
+          width="864" height="1080"
+          loading="eager" fetchpriority="high" decoding="async"
           data-parallax
           onerror="this.remove()">
 
