@@ -15,9 +15,6 @@
 .hero__media img{
   width:100%; height:100%;
   object-fit:cover; object-position:50% 30%;
-  will-change:transform;
-  /* overscan so the parallax shift never exposes an edge */
-  transform:scale(1.08) translate3d(0,0,0);
 }
 .hero__media::after{
   content:""; position:absolute; inset:0;

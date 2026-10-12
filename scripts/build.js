@@ -23,7 +23,6 @@ const CSS_FILES = [
   "13-hero-media.css",
   "14-process.css",
   "15-pricing.css",
-  "17-reviews.css",
   "19-faq.css",
   "22-button-motion.css",
   "23-reveal-and-reduced-motion.css"

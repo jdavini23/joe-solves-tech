@@ -23,6 +23,5 @@
   .js .tick path{ stroke-dashoffset:0 !important; transition:none; }
   .btn--sparkle::after{ display:none; }
   .step:hover,.tier:hover{ transform:none; }
-  .hero__media img{ transform:scale(1.08); }
   *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
 }
