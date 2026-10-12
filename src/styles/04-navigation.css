@@ -62,20 +62,11 @@
 .nav__link:hover{ color:var(--nav-link-on); }
 .nav__link.is-active{ color:var(--nav-link-on); background:var(--nav-link-bg); }
 
-/* pinned CTA */
-.nav__cta{
-  height:40px; padding-inline:var(--space-7);
-  font-size:var(--t-body);
-  background:var(--bg); color:var(--button-ink);
-  box-shadow:0 1px 2px rgba(0,0,0,0.10);
-}
-.nav.is-scrolled .nav__cta{ background:var(--accent-fill); color:var(--on-dark); box-shadow:none; }
 
 @media (max-width:599px){
   .brand__word{ display:none; }
   .nav__inner{ gap:var(--space-4); }
   .nav__link{ padding-inline:var(--space-3); font-size:var(--t-label); }
-  .nav__cta{ padding-inline:var(--space-6); font-size:var(--t-label); }
 }
 @media (max-width:339px){
   .nav__link[data-hide-xs]{ display:none; }

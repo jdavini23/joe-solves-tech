@@ -4,7 +4,7 @@ export function initScrollEffects(reduceMotion, onFrameCallback) {
   let ticking = false;
   function onFrame() {
     ticking = false;
-    onFrameCallback();
+    if (onFrameCallback) onFrameCallback();
     const offset = window.pageYOffset;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     if (progress) progress.style.transform = "scaleX(" + (max > 0 ? Math.min(offset / max, 1) : 0) + ")";

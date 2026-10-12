@@ -121,8 +121,10 @@
 .swash-word{ position:relative; display:inline-block; white-space:nowrap; }
 .swash{
   position:absolute;
-  left:-0.05em; right:-0.05em; bottom:-0.1em;
-  width:auto; height:0.2em;
+  /* explicit width: an absolutely positioned svg ignores left/right and
+     falls back to its 300px default, short of a multi-word phrase */
+  left:-0.05em; bottom:-0.1em;
+  width:calc(100% + 0.1em); height:0.2em;
   overflow:visible;
   pointer-events:none;
 }
@@ -153,9 +155,6 @@
    above 3:1 against the scrim */
 .hero__copy :focus-visible{ outline-color:var(--on-dark); }
 
-/* ghost pill: a dark wash, not a white one — white-on-white-tint was ~2.2:1 */
-.hero .btn--ghost{ background:rgba(30,22,70,0.22); }
-.hero .btn--ghost:hover{ background:rgba(30,22,70,0.32); }
 
 /* stacked pills read as ragged at auto width; match them instead */
 @media (max-width:479px){

@@ -1,10 +1,8 @@
 import { initAnalytics } from "./analytics.js";
 import { initCounters } from "./counters.js";
 import { initNavigation } from "./navigation.js";
-import { initNudge } from "./nudge.js";
 import { initReveals } from "./reveals.js";
 import { initScrollEffects } from "./scroll-effects.js";
-import { initStickyBar } from "./sticky-bar.js";
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 initAnalytics();
@@ -14,7 +12,5 @@ if (!("IntersectionObserver" in window)) {
   initNavigation(document.getElementById("nav"));
   initReveals(reduceMotion);
   initCounters(reduceMotion);
-  initStickyBar();
-  const nudge = initNudge();
-  initScrollEffects(reduceMotion, nudge.check);
+  initScrollEffects(reduceMotion);
 }
