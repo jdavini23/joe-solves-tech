@@ -67,3 +67,22 @@
 }
 .js .is-in .tick path{ stroke-dashoffset:0; }
 .tier .btn{ width:100%; margin-top:auto; }
+
+/* Fix-it band — the front door, ahead of the build tiers. Same card
+   language as .tier, laid out in a row once there is room. */
+.fixit{
+  display:grid; gap:var(--space-7);
+  margin-top:var(--space-9);
+  padding:var(--space-7);
+  background:var(--surface);
+  border-radius:var(--r-2xl);
+  box-shadow:var(--shadow-raised);
+}
+@media (min-width:600px){ .fixit{ padding:var(--space-8); } }
+.fixit .tier__list{ margin:0; }
+@media (min-width:860px){
+  .fixit{ grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto; align-items:center; gap:var(--space-8); }
+  .fixit__cta{ white-space:nowrap; }
+}
+@media (max-width:859px){ .fixit__cta{ width:100%; } }
+.fixit + .tiers{ margin-top:var(--space-8); }
