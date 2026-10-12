@@ -12,4 +12,4 @@
 }
 .review--empty svg{ margin:0 auto; color:var(--ink-15); }
 .review--empty p{ margin-top:var(--space-6); font-size:var(--t-label); line-height:1.5; color:var(--ink-60); text-wrap:pretty; }
-.review--empty span{ display:block; margin-top:var(--space-5); font-size:var(--t-meta); font-weight:500; color:var(--ink-15); }
+.review--empty span{ display:block; margin-top:var(--space-5); font-size:var(--t-label); font-weight:500; color:var(--ink-60); }
