@@ -11,4 +11,10 @@
   gap:var(--space-6);
 }
 .footer a:hover{ color:var(--ink); }
-.footer__links{ display:flex; gap:var(--space-6); }
+.footer__links{ display:flex; flex-wrap:wrap; gap:var(--space-4) var(--space-6); }
+/* 14px and a 44px tap height: these are real links, not fine print */
+.footer__links a{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; min-width:44px;
+  font-size:var(--t-label);
+}
