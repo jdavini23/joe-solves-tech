@@ -36,7 +36,7 @@
 
 .nav__inner{ display:flex; align-items:center; gap:var(--space-6); width:100%; }
 
-.brand{ display:flex; align-items:center; gap:var(--space-4); margin-right:auto; }
+.brand{ display:flex; align-items:center; gap:var(--space-4); margin-right:auto; min-height:44px; min-width:44px; }
 .brand__mark{
   width:32px; height:32px; flex:none;
   border-radius:var(--r-xs);
@@ -51,9 +51,9 @@
   white-space:nowrap;
 }
 
-.nav__links{ display:flex; align-items:center; gap:var(--space-1); }
+.nav__links{ display:flex; align-items:center; gap:var(--space-4); }
 .nav__link{
-  display:inline-flex; align-items:center; height:40px;
+  display:inline-flex; align-items:center; justify-content:center; height:44px; min-width:44px;
   padding-inline:var(--space-5);
   border-radius:var(--r-lg);
   font-size:var(--t-body); color:var(--nav-link);
