@@ -1,5 +1,4 @@
 import { initAnalytics } from "./analytics.js";
-import { initCounters } from "./counters.js";
 import { initNavigation } from "./navigation.js";
 import { initReveals } from "./reveals.js";
 
@@ -10,5 +9,4 @@ if (!("IntersectionObserver" in window)) {
 } else {
   initNavigation(document.getElementById("nav"));
   initReveals(reduceMotion);
-  initCounters(reduceMotion);
 }

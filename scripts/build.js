@@ -15,7 +15,6 @@ const CSS_FILES = [
   "05-hero.css",
   "06-section-header.css",
   "07-work.css",
-  "08-statistics.css",
   "09-about.css",
   "10-contact.css",
   "11-footer.css",
