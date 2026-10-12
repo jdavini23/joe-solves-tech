@@ -13,7 +13,7 @@
 
 /* light pill — reads forward on the gradient */
 .btn--light{ background:var(--bg); color:var(--button-ink); box-shadow:var(--shadow-float); }
-.btn--accent{ background:var(--accent); color:#fff; }
+.btn--accent{ background:var(--accent-fill); color:var(--on-dark); }
 .btn--ghost{
   background:rgba(255,255,255,0.14);
   color:var(--on-dark);

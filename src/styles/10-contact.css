@@ -17,14 +17,21 @@
     radial-gradient(40% 50% at 18% 10%, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0) 64%),
     radial-gradient(46% 54% at 84% 88%, rgba(224,166,198,0.34) 0%, rgba(224,166,198,0) 66%);
 }
-.contact .eyebrow{ color:rgba(255,255,255,0.7); }
+/* text scrim — same deep-indigo wash as the hero copy. The lavender
+   midtones and the white pool sat at ~2.2:1 behind white text; the wash
+   eases off toward the rose corner so the card keeps its warm end. */
+.contact::after{
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(140deg, var(--scrim) 0%, var(--scrim) 80%, rgba(30,22,70,0.38) 100%);
+}
+.contact .eyebrow{ color:var(--on-dark); }
 .contact h2{ margin-top:var(--space-5); }
 .contact p{
   margin:var(--space-6) auto 0;
   max-width:44ch;
   font-size:var(--t-lead);
-  color:rgba(255,255,255,0.86);
+  color:var(--on-dark);
 }
 .contact .btn{ margin-top:var(--space-8); }
-.contact__alt{ margin-top:var(--space-6); font-size:var(--t-label); color:rgba(255,255,255,0.75); }
+.contact__alt{ margin-top:var(--space-6); font-size:var(--t-label); color:var(--on-dark); }
 .contact__alt a{ text-decoration:underline; text-underline-offset:3px; }

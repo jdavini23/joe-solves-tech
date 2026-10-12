@@ -5,11 +5,22 @@
   position:sticky; top:0; z-index:50;
   height:var(--nav-h);
   display:flex; align-items:center;
-  --nav-link:var(--on-dark-75);
+  --nav-link:var(--on-dark);
   --nav-link-on:var(--on-dark);
-  --nav-link-bg:rgba(0,0,0,0.1);
+  --nav-link-bg:rgba(30,22,70,0.24);
   transition:background-color var(--t), box-shadow var(--t);
 }
+/* over the hero, the right-hand links sit outside the copy scrim on light
+   lavender (~2.5:1). A soft top wash carries them; it fades out with the
+   transparent state so the frosted bar never stacks on it. */
+.nav::before{
+  content:""; position:absolute; left:0; right:0; top:0; z-index:-1;
+  height:calc(var(--nav-h) * 1.6);
+  background:linear-gradient(180deg, var(--scrim) 0%, rgba(30,22,70,0.32) 55%, rgba(30,22,70,0) 100%);
+  pointer-events:none;
+  transition:opacity var(--t);
+}
+.nav.is-scrolled::before{ opacity:0; }
 .nav.is-scrolled{
   background:rgba(247,247,247,0.72);
   -webkit-backdrop-filter:blur(20px) saturate(1.4);
@@ -58,7 +69,7 @@
   background:var(--bg); color:var(--button-ink);
   box-shadow:0 1px 2px rgba(0,0,0,0.10);
 }
-.nav.is-scrolled .nav__cta{ background:var(--accent); color:#fff; box-shadow:none; }
+.nav.is-scrolled .nav__cta{ background:var(--accent-fill); color:var(--on-dark); box-shadow:none; }
 
 @media (max-width:599px){
   .brand__word{ display:none; }

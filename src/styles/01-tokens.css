@@ -27,6 +27,13 @@
   --surface-glass:rgba(255,255,255,0.6);
   --surface-glass-strong:rgba(255,255,255,0.8);
   --accent-soft:rgba(0,122,255,0.10);
+  /* derived — --accent deepened just enough to carry white button labels
+     (4.97:1; #007AFF itself is 4.02:1). Fills only; --accent stays for
+     strokes, rings and tints. */
+  --accent-fill:#006CE0;
+  /* derived — --accent darkened for text: links, numerals, hover labels.
+     5.4:1 on --bg, 4.8:1 on an --accent-soft chip. */
+  --accent-ink:#0062CC;
   --ink-75:rgba(0,0,0,0.75);
   --ink-60:rgba(0,0,0,0.6);
   --ink-15:rgba(0,0,0,0.15);
@@ -34,6 +41,10 @@
   --on-dark:#FFFFFF;
   --on-dark-75:rgba(255,255,255,0.75);
   --button-ink:#535398;
+  /* derived — --violet pushed toward black; the shade the hero's image
+     vignette and glass shadows already use. Scrims white-on-gradient copy. */
+  --indigo-deep:rgb(30,22,70);
+  --scrim:rgba(30,22,70,0.5);
 
   /* type */
   --font-display:"Playfair Display", Georgia, serif;

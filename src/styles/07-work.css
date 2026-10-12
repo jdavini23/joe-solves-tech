@@ -32,7 +32,7 @@
   display:flex; align-items:center; justify-content:space-between; gap:var(--space-4);
   margin-top:var(--space-6);
 }
-.card__no{ font-size:var(--t-meta); font-weight:600; color:var(--accent); letter-spacing:0.04em; }
+.card__no{ font-size:var(--t-meta); font-weight:600; color:var(--accent-ink); letter-spacing:0.04em; }
 .badge{
   padding:var(--space-2) var(--space-3);
   border-radius:var(--r-full);
@@ -48,14 +48,14 @@
 .tag{
   padding:var(--space-2) var(--space-4);
   border-radius:var(--r-full);
-  background:var(--accent-soft); color:var(--accent);
+  background:var(--accent-soft); color:var(--accent-ink);
   font-size:var(--t-meta); font-weight:500;
 }
 .card__link{
   display:inline-flex; align-items:center; gap:var(--space-3);
   margin-top:auto; padding-top:var(--space-6);
   border-top:1px solid var(--ink-10);
-  font-size:var(--t-label); font-weight:600; color:var(--accent); text-decoration:none;
+  font-size:var(--t-label); font-weight:600; color:var(--accent-ink); text-decoration:none;
 }
 .card__link svg{ transition:transform var(--t); }
 .card:hover .card__link svg{ transform:translateX(3px); }
