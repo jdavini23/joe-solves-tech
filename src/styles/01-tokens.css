@@ -57,7 +57,7 @@
   --t-h3:1.125rem;                       /* 18  — subheads, 600       */
   --t-body:1rem;                         /* 16  — body and all UI     */
   --t-label:0.875rem;                    /* 14  — labels, captions    */
-  --t-meta:0.75rem;                      /* 12  — eyebrows, meta      */
+  --t-meta:0.8125rem;                    /* 13  — eyebrows, meta (12 read too small on phones) */
   --t-lead:clamp(1.0625rem,1.9vw,1.1875rem); /* section intros        */
 
   /* spacing — 2 · 4 · 6 · 10 · 12 · 16 · 20 · 40 · 60 · 80,
