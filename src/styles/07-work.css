@@ -59,3 +59,23 @@
 }
 .card__link svg{ transition:transform var(--t); }
 .card:hover .card__link svg{ transform:translateX(3px); }
+
+/* before / after: the owner's week, not the build */
+.ba{ margin-top:var(--space-5); display:grid; gap:var(--space-4); }
+.ba__row{ display:grid; align-content:start; gap:var(--space-1); }
+.ba dt{
+  font-size:var(--t-meta); font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+  color:var(--ink-60);
+}
+.ba dd{ margin:0; font-size:var(--t-body); line-height:1.5; color:var(--ink-75); }
+.ba__row--after dt{ color:var(--accent-ink); }
+.ba__row--after dd{ color:var(--ink); font-weight:500; }
+
+/* the real job: fills the empty slot beside card 03 in the two-column
+   layout, and spans its own row under the three demos at three columns */
+@media (min-width:1000px){ .card--fix{ grid-column:1 / -1; } }
+.card--fix .tags{ margin-bottom:0; }
+@media (min-width:1000px){
+  .card--fix .ba{ grid-template-columns:1fr 1fr; gap:var(--space-8); }
+}
+.badge--real{ background:var(--accent-soft); color:var(--accent-ink); }

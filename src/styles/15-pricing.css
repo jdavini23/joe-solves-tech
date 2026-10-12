@@ -21,19 +21,12 @@
 @media (min-width:600px){ .tier{ padding:var(--space-8) var(--space-8) var(--space-8); } }
 .tier:hover{ transform:translateY(-4px); box-shadow:inset 0 1px 0 #FFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float); }
 
-/* featured tier breathes, very slightly */
+/* featured tier: ring only, no motion */
 .tier--featured{
   box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
-  will-change:transform;
-  animation:breathe 6s ease-in-out infinite;
 }
 .tier--featured:hover{
-  animation-play-state:paused;
   box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
-}
-@keyframes breathe{
-  0%,100%{ transform:scale(1); }
-  50%    { transform:scale(1.018); }
 }
 .tier__flag{
   position:absolute; top:calc(var(--space-5) * -1); left:50%;
@@ -94,3 +87,4 @@
 .promise strong{ color:var(--ink); font-weight:600; }
 .promise + .fixit{ margin-top:var(--space-7); }
 .fixit + .tiers{ margin-top:var(--space-8); }
+.pricing__cta{ margin-top:var(--space-8); display:flex; justify-content:center; }

@@ -20,14 +20,6 @@
   display:grid; place-items:center;
   border-radius:var(--r-lg);
   background:var(--accent-soft); color:var(--accent);
-  will-change:transform;
-  animation:bob 4.4s ease-in-out infinite alternate;
-}
-.step:nth-child(2) .step__icon{ animation-duration:5.2s; animation-delay:-1.4s; }
-.step:nth-child(3) .step__icon{ animation-duration:4.8s; animation-delay:-2.6s; }
-@keyframes bob{
-  from{ transform:translate3d(0,0,0); }
-  to  { transform:translate3d(0,-7px,0); }
 }
 .step__no{ margin-top:var(--space-6); font-size:var(--t-meta); font-weight:600; letter-spacing:0.08em; color:var(--accent-ink); }
 .step h3{ margin-top:var(--space-3); }

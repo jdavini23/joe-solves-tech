@@ -13,6 +13,8 @@
 
 /* light pill — reads forward on the gradient */
 .btn--light{ background:var(--bg); color:var(--button-ink); box-shadow:var(--shadow-float); }
+ /* the one CTA on a light ground: same label as the hero, accent fill */
+.btn--primary{ background:var(--accent-fill); color:var(--on-dark); box-shadow:var(--shadow-float); }
 .btn:hover{ transform:translateY(-1px); }
 .btn--light:hover{ box-shadow:var(--shadow-float),0 0 0 1px rgba(0,0,0,0.04); }
 .btn:active{ transform:translateY(0); }
