@@ -34,4 +34,4 @@
 }
 .contact .btn{ margin-top:var(--space-8); }
 .contact__alt{ margin-top:var(--space-6); font-size:var(--t-label); color:var(--on-dark); }
-.contact__alt a{ text-decoration:underline; text-underline-offset:3px; }
+.contact__alt a{ display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; text-underline-offset:3px; }
