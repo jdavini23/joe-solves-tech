@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Hero image + floating booking card
+   Hero image
    ========================================================================== */
 .hero__media{
   position:relative;
@@ -25,19 +25,3 @@
   pointer-events:none;
 }
 
-.booking{
-  position:absolute; z-index:2;
-  left:var(--space-6); right:var(--space-6); bottom:var(--space-6);
-  padding:var(--space-6);
-  border-radius:var(--r-2xl);
-}
-@media (min-width:600px){
-  .booking{ left:auto; right:var(--space-7); bottom:var(--space-7); width:290px; }
-}
-.booking__title{ font-size:var(--t-body); font-weight:600; }
-.booking__body{ margin-top:var(--space-3); font-size:var(--t-label); line-height:1.45; color:var(--ink-75); }
-.booking .btn{
-  width:100%; height:44px; margin-top:var(--space-6);
-  padding-inline:var(--space-6); font-size:var(--t-body);
-}
-.booking__meta{ margin-top:var(--space-4); font-size:var(--t-meta); font-weight:500; color:var(--ink-60); text-align:center; }

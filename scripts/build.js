@@ -24,9 +24,7 @@ const CSS_FILES = [
   "14-process.css",
   "15-pricing.css",
   "17-reviews.css",
-  "18-guarantee.css",
   "19-faq.css",
-  "20-sticky-bar.css",
   "22-button-motion.css",
   "23-reveal-and-reduced-motion.css"
 ];

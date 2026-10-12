@@ -155,9 +155,6 @@
    above 3:1 against the scrim */
 .hero__copy :focus-visible{ outline-color:var(--on-dark); }
 
-/* ghost pill: a dark wash, not a white one — white-on-white-tint was ~2.2:1 */
-.hero .btn--ghost{ background:rgba(30,22,70,0.22); }
-.hero .btn--ghost:hover{ background:rgba(30,22,70,0.32); }
 
 /* stacked pills read as ragged at auto width; match them instead */
 @media (max-width:479px){
