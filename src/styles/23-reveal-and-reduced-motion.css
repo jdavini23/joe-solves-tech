@@ -11,15 +11,12 @@
 
 @media (prefers-reduced-motion:reduce){
   html{ scroll-behavior:auto; }
-  .blob{ animation:none !important; }
   /* swash arrives already drawn rather than not at all */
   .swash path{ animation:none !important; stroke-dashoffset:0; }
   .js .reveal{ transform:none; transition:opacity 300ms linear; }
   .btn:hover,.card:hover,.card:focus-within{ transform:none; }
   .card:hover .card__link svg{ transform:none; }
-  /* everything that loops or draws arrives at its resting state instead */
-  .step__icon,.tier--featured{ animation:none !important; }
-  .tier--featured{ transform:none; }
+  /* everything that draws arrives at its resting state instead */
   .js .tick path{ stroke-dashoffset:0 !important; transition:none; }
   .btn--sparkle::after{ display:none; }
   .step:hover,.tier:hover{ transform:none; }

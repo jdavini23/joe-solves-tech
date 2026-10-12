@@ -19,7 +19,6 @@ const CSS_FILES = [
   "09-about.css",
   "10-contact.css",
   "11-footer.css",
-  "12-progress.css",
   "13-hero-media.css",
   "14-process.css",
   "15-pricing.css",
