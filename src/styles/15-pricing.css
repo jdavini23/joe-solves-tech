@@ -86,3 +86,8 @@
 }
 @media (max-width:859px){ .fixit__cta{ width:100%; } }
 .fixit + .tiers{ margin-top:var(--space-8); }
+.tiers__note{
+  margin-top:var(--space-8); text-align:center;
+  font-size:var(--t-body); color:var(--ink-75);
+}
+.tiers__note strong{ color:var(--ink); font-weight:600; }

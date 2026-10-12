@@ -24,7 +24,6 @@
   .btn--sparkle::after{ display:none; }
   .step:hover,.tier:hover{ transform:none; }
   .hero__media img{ transform:scale(1.08); }
-  .js .nudge{ transform:none; transition:opacity 200ms linear; }
   .bar,.bar.is-docked{ transition:none; }
   *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
 }
