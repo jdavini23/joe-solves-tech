@@ -121,8 +121,10 @@
 .swash-word{ position:relative; display:inline-block; white-space:nowrap; }
 .swash{
   position:absolute;
-  left:-0.05em; right:-0.05em; bottom:-0.1em;
-  width:auto; height:0.2em;
+  /* explicit width: an absolutely positioned svg ignores left/right and
+     falls back to its 300px default, short of a multi-word phrase */
+  left:-0.05em; bottom:-0.1em;
+  width:calc(100% + 0.1em); height:0.2em;
   overflow:visible;
   pointer-events:none;
 }
