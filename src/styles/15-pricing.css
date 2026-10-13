@@ -21,13 +21,6 @@
 @media (min-width:600px){ .tier{ padding:var(--space-8) var(--space-8) var(--space-8); } }
 .tier:hover{ transform:translateY(-4px); box-shadow:inset 0 1px 0 #FFF,0 0 0 1px rgba(0,0,0,0.12),var(--shadow-float); }
 
-/* featured tier: ring only, no motion */
-.tier--featured{
-  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
-}
-.tier--featured:hover{
-  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
-}
 .tier__flag{
   position:absolute; top:calc(var(--space-5) * -1); left:50%;
   transform:translateX(-50%);
@@ -72,6 +65,12 @@
 }
 @media (min-width:600px){ .fixit{ padding:var(--space-8); } }
 .fixit .tier__list{ margin:0; }
+/* the one recommended entry point: ring + flag, borrowed from the old
+   featured tier so there is a single "start here" on the page */
+.fixit--lead{
+  position:relative;
+  box-shadow:inset 0 1px 0 #FFF,0 0 0 1.5px var(--accent),var(--shadow-float);
+}
 @media (min-width:860px){
   .fixit{ grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:var(--space-8); }
 }
@@ -85,6 +84,6 @@
 }
 .promise__seal{ flex:none; color:var(--accent-ink); }
 .promise strong{ color:var(--ink); font-weight:600; }
-.promise + .fixit{ margin-top:var(--space-7); }
+.promise + .fixit{ margin-top:var(--space-8); }
 .fixit + .tiers{ margin-top:var(--space-8); }
 .pricing__cta{ margin-top:var(--space-8); display:flex; justify-content:center; }
