@@ -31,6 +31,7 @@ test("build is deterministic and structurally complete", () => {
   assert.match(html, /<meta name="google-site-verification" content="SS6mQtMWEG7Ha2XUVj7lNdXq0fzernp1-D0n4_Y9nBs">/);
   assert.match(html, /document\.documentElement\.className = "js"/);
   assert.match(html, /<script type="module" src="\/assets\/js\/main\.js"><\/script>/);
+  for (const price of ["$150", "$450", "$1,200", "$600"]) assert.ok(html.includes(">" + price), "Pricing is missing " + price);
   const ids = Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, "IDs must be unique");
   for (const [, target] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(target), "Missing fragment target #" + target);
