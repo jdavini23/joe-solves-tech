@@ -90,18 +90,18 @@ test("development server exposes production assets and comparison tools", async 
 test("homepage leads with Site Rescue and an email-only process", () => {
   build();
   const html = fs.readFileSync(path.join(DIST, "index.html"), "utf8");
-  const h1 = html.match(/<h1[\s\S]*?<\/h1>/)[0];
-  assert.match(h1, /broken/);
-  assert.match(h1, /underperforming/);
+  const h1 = html.match(/<h1[\s\S]*?<\/h1>/)[0].replace(/<[^>]+>/g, "");
+  assert.match(h1, /I fix small business websites/);
+  assert.doesNotMatch(h1, /underperforming/);
   assert.match(html, /Site Rescue/);
   assert.match(html, /\$149/);
-  assert.match(html, /credited toward the fix/);
+  assert.match(html, /comes off the fix/);
   assert.match(html, /three days/);
   assert.match(html, /Handled entirely by email/);
   assert.match(html, /No sales calls/);
   assert.match(html, /made-up cleaning company/);
-  assert.match(html, /\[placeholder: what the diagnostic includes\]/);
-  assert.match(html, /\[placeholder: a real Site Rescue before-and-after/);
+  assert.match(html, /You own every account and login from day one/);
+  assert.doesNotMatch(html, /\[placeholder/);
   assert.match(html, /valued at 3 million/);
   assert.doesNotMatch(html, /Free%2020-minute%20call/);
   assert.doesNotMatch(html, /Best%20time%20to%20call/);
@@ -112,13 +112,26 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.ok(mailtos.length >= 4, "Expected the Site Rescue mailtos and the plain address");
   for (const href of mailtos) {
     assert.match(href, /^mailto:joedavini23@gmail\.com/);
-    if (href.includes("subject=")) assert.match(href, /subject=Site%20Rescue/);
-    assert.doesNotMatch(href, /call/i);
+    if (href.includes("subject=")) {
+      assert.match(href, /subject=Site%20Rescue/);
+      const body = decodeURIComponent(href.split("body=")[1] || "");
+      for (const line of ["Business name:", "Website:", "What you sell:", "The one thing bugging you:", "What you want to happen:", "What you have tried:", "Rough budget:", "Deadline:"]) {
+        assert.ok(body.includes(line), "Mailto template is missing " + line);
+      }
+    }
+    assert.doesNotMatch(href, /20-minute|sales%20call|time%20to%20call/i);
   }
   const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
   assert.doesNotMatch(css, /\.brand__word\{\s*display:\s*none/);
   const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="about"'));
   assert.match(how, /Email the website/);
+  assert.match(how, /under five minutes/);
   assert.match(how, /within three days/);
-  assert.match(how, /credited toward the fix/);
+  assert.match(how, /fixed-price options, A, B, and C/);
+  assert.match(how, /never by the hour/);
+  assert.match(how, /50% up front/);
+  assert.match(how, /comes off the fix/);
+  assert.match(how, /You own every account and login from day one/);
+  assert.doesNotMatch(how, /\[placeholder/);
+  for (const amount of how.match(/\$[\d,]+/g) || []) assert.equal(amount, "$149", "How it works quotes " + amount);
 });
