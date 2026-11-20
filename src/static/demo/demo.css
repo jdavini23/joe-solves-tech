@@ -13,3 +13,6 @@
 @media(max-width:850px){.demo-header__inner{height:auto;padding-block:12px;flex-wrap:wrap}.demo-nav{order:3;width:100%;margin:0}.demo-nav a{flex:1;text-align:center}.back-link{margin-left:auto}.intake-layout,.assistant-layout,.dashboard-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.view-heading{align-items:flex-start;flex-direction:column}.flow{justify-content:flex-start}.automation-panel{order:-1}}
 @media(max-width:560px){.shell{width:min(100% - 24px,1180px)}.demo-main{padding-block:42px 70px}.demo-brand small{display:none}.form-grid{grid-template-columns:1fr}.full-field{grid-column:auto}.form-grid fieldset{display:grid}.metric-grid{grid-template-columns:1fr 1fr}.panel{padding:20px}.result-grid{grid-template-columns:1fr}.result-price{text-align:left}.demo-notice__inner{align-items:flex-start;padding-block:10px}.demo-notice p{max-width:75%}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+/* Hash targets sit under the sticky header unless the section clears it. */
+.view{scroll-margin-top:148px}
+@media(min-width:851px){.view{scroll-margin-top:92px}}

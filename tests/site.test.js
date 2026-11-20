@@ -35,7 +35,13 @@ test("build is deterministic and structurally complete", () => {
   const ids = Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, "IDs must be unique");
   for (const [, target] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(target), "Missing fragment target #" + target);
-  for (const asset of ["assets/site.css", "assets/js/main.js", "demo/index.html", "demo/demo.css", "demo/js/main.js", "demo/js/escape.js", "og.png"]) assert.ok(fs.existsSync(path.join(DIST, asset)), "Missing " + asset);
+  for (const asset of ["assets/site.css", "assets/js/main.js", "demo/index.html", "demo/demo.css", "demo/js/main.js", "demo/js/escape.js", "og.png", "favicon.ico", "favicon.svg", "googlea781ebaa82a0d190.html"]) assert.ok(fs.existsSync(path.join(DIST, asset)), "Missing " + asset);
+  assert.match(html, /rel="icon" href="\/favicon\.svg"/);
+  const demoHtml = fs.readFileSync(path.join(DIST, "demo/index.html"), "utf8");
+  assert.match(demoHtml, /rel="icon" href="\/favicon\.svg"/);
+  const demoCss = fs.readFileSync(path.join(DIST, "demo/demo.css"), "utf8");
+  assert.match(demoCss, /\.view\{scroll-margin-top:148px\}/);
+  assert.match(demoCss, /@media\(min-width:851px\)\{\.view\{scroll-margin-top:92px\}\}/);
   const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
   assert.match(css, /@media \(prefers-reduced-motion:reduce\)/);
   const main = fs.readFileSync(path.join(DIST, "assets", "js", "main.js"), "utf8");
@@ -80,7 +86,7 @@ test("development server exposes production assets and comparison tools", async 
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   context.after(() => new Promise((resolve) => server.close(resolve)));
   const { port } = server.address();
-  for (const route of ["/", "/assets/site.css", "/assets/js/main.js", "/demo/", "/demo/demo.css", "/demo/js/main.js", "/compare/", "/compare/before.html"]) {
+  for (const route of ["/", "/assets/site.css", "/assets/js/main.js", "/demo/", "/demo/demo.css", "/demo/js/main.js", "/favicon.ico", "/favicon.svg", "/googlea781ebaa82a0d190.html", "/compare/", "/compare/before.html"]) {
     const response = await fetch("http://127.0.0.1:" + port + route);
     assert.equal(response.status, 200, route);
   }

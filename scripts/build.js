@@ -103,6 +103,11 @@ function build(options = {}) {
   const staticDirectory = path.join(SRC, "static");
   if (fs.existsSync(staticDirectory)) copyDirectory(staticDirectory, DIST);
   injectAnalyticsIntoDirectory(DIST, measurementId);
+  const verificationFile = "googlea781ebaa82a0d190.html";
+  const verificationSource = path.join(ROOT, verificationFile);
+  if (fs.existsSync(verificationSource)) {
+    fs.copyFileSync(verificationSource, path.join(DIST, verificationFile));
+  }
   return DIST;
 }
 
