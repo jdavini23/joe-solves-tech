@@ -38,6 +38,13 @@
   width:6px; height:6px; border-radius:50%;
   background:var(--accent);
 }
+.step__sample{
+  display:inline-flex; align-items:center;
+  min-height:44px; margin-top:var(--space-4);
+  font-size:var(--t-label); font-weight:600; color:var(--accent-ink);
+  text-decoration:underline; text-underline-offset:3px;
+}
+.step__sample:hover{ color:var(--ink); }
 .steps__note{
   margin-top:var(--space-8);
   display:inline-block;
