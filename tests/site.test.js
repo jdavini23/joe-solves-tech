@@ -115,10 +115,13 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.doesNotMatch(html, /Best%20time%20to%20call/);
   assert.doesNotMatch(html, /Twenty minutes on a call/);
   assert.doesNotMatch(html, /what the call is for/);
-  const dollars = html.match(/\$\d[\d,]*/g) || [];
+  const sampleAt = html.indexOf('id="sample"');
+  const aboutAt = html.indexOf('id="about"');
+  const outside = html.slice(0, sampleAt) + html.slice(aboutAt);
+  const dollars = outside.match(/\$\d[\d,]*/g) || [];
   assert.ok(dollars.includes("$149"));
   for (const amount of dollars) assert.equal(amount, "$149", "Unexpected price " + amount);
-  const sectionIds = ["how", "about", "other", "work", "faq", "contact"];
+  const sectionIds = ["how", "sample", "about", "other", "work", "faq", "contact"];
   const sectionAt = sectionIds.map((id) => html.indexOf('id="' + id + '"'));
   sectionIds.forEach((id, index) => {
     assert.ok(sectionAt[index] > (sectionAt[index - 1] || 0), id + " is out of page order");
@@ -182,7 +185,7 @@ test("homepage leads with Site Rescue and an email-only process", () => {
     }
     assert.doesNotMatch(href, /20-minute|sales%20call|time%20to%20call/i);
   }
-  assert.equal(rescueSubjects, 3);
+  assert.equal(rescueSubjects, 4);
   assert.equal(new Set(mailtos.filter((href) => href.includes("subject=Site%20Rescue"))).size, 1);
   assert.equal(otherSubjects, 1);
   const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
@@ -190,7 +193,7 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.doesNotMatch(css, /\.tier__price|\.tiers\{|\.fixit\{|\.pricing__cta|\.tick /);
   const reveals = fs.readFileSync(path.join(DIST, "assets", "js", "reveals.js"), "utf8");
   assert.doesNotMatch(reveals, /\.tier/);
-  const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="about"'));
+  const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="sample"'));
   assert.match(how, /Email the website/);
   assert.match(how, /under five minutes/);
   assert.match(how, /One page, in plain English/);
@@ -278,4 +281,87 @@ test("mailto clicks record contact_cta_click with the subject", () => {
   context.window = {};
   click("mailto:joedavini23@gmail.com?subject=Site%20Rescue", "Email me about Site Rescue", "contact");
   assert.equal(events.length, 6);
+});
+
+test("sample diagnostic is a fictional example after the process", () => {
+  build();
+  const html = fs.readFileSync(path.join(DIST, "index.html"), "utf8");
+  const sample = html.slice(html.indexOf('id="sample"'), html.indexOf('id="about"'));
+  const text = sample.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ");
+  const phrases = [
+    "What the diagnostic looks like.",
+    "A sample for a made-up business. Yours is about your site.",
+    "Site Rescue diagnostic",
+    "Sample: Fernwood Bakery, Tigard",
+    "What I looked at",
+    "Homepage on phone and desktop",
+    "Contact and order path",
+    "Google listing",
+    "Page speed",
+    "Findings, ranked by what they cost you",
+    "The order button is hidden on phones. Most visitors are on a phone, and they have to scroll past three photos to find it.",
+    "The hours on Google don't match the site, so people show up when you're closed.",
+    "The homepage loads slowly because the photos are full size.",
+    "The fix I'd do first",
+    "Move the order button to the top on phones. A small change for the biggest leak.",
+    "Your options",
+    "A. Quick fix",
+    "$900",
+    "Order button, hours, photo sizes.",
+    "3 days.",
+    "B. Rebuild the order path",
+    "$2,400",
+    "The one I'd pick",
+    "Everything in A, plus a simple order page and a clean contact form.",
+    "2 weeks.",
+    "C. B plus 30 days of support",
+    "$2,950",
+    "Everything in B, plus fixes and small changes for 30 days.",
+    "2 weeks, then 30 days.",
+    "Not included",
+    "New branding, a logo, or writing your menu.",
+    "If you do nothing",
+    "The phone visitors who can't find the order button keep leaving.",
+    "The $149 comes off whichever option you pick.",
+    "Email me about Site Rescue"
+  ];
+  let cursor = 0;
+  for (const phrase of phrases) {
+    const at = text.indexOf(phrase, cursor);
+    assert.ok(at >= cursor, "Missing or out of order: " + phrase);
+    cursor = at + phrase.length;
+  }
+  assert.match(sample, /<p class="eyebrow">Sample<\/p>/);
+  assert.match(sample, /class="sample-doc__tag"[^>]*>\s*Sample\s*<\/p>/);
+  assert.equal((sample.match(/sample-option--pick/g) || []).length, 1);
+  assert.doesNotMatch(sample, /Most pick this/i);
+  assert.doesNotMatch(sample, /\d+\s*%/);
+  const findings = sample.slice(sample.indexOf("sample-findings"), sample.indexOf("sample-fix"));
+  assert.equal((findings.match(/<li>/g) || []).length, 3);
+  assert.doesNotMatch(findings, /\$|\d+\s*%/);
+  assert.deepEqual(sample.match(/\$\d[\d,]*/g), ["$900", "$2,400", "$2,950", "$149"]);
+  const hero = html.slice(html.indexOf('class="hero"'), html.indexOf('id="how"'));
+  const heroHref = hero.match(/href="(mailto:[^"]+)"/)[1];
+  assert.deepEqual(
+    Array.from(sample.matchAll(/href="(mailto:[^"]+)"/g), (match) => match[1]),
+    [heroHref]
+  );
+  const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="sample"'));
+  const steps = [...how.matchAll(/<article class="step[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  assert.match(steps[1], /The diagnostic/);
+  assert.match(steps[1], /<a class="step__sample" href="#sample">See a sample<\/a>/);
+  assert.doesNotMatch(steps[0], /#sample/);
+  assert.doesNotMatch(steps[2], /#sample/);
+  const header = html.slice(html.indexOf("<header"), html.indexOf("</header>"));
+  assert.doesNotMatch(header, /#sample|>Sample</);
+  const banned = /\b(genuinely|absolutely|thrilled|incredible|fantastic|amazing|delve|unlock|seamless|robust|leverage|crucial|however|therefore|furthermore|moreover|additionally|ensure)\b/i;
+  const sampleSource = fs.readFileSync(path.join(__dirname, "../src/sections/sample.html"), "utf8");
+  const sampleCss = fs.readFileSync(path.join(__dirname, "../src/styles/16-sample.css"), "utf8");
+  assert.doesNotMatch(sampleSource, banned);
+  assert.doesNotMatch(sampleSource, /\u2014/);
+  assert.doesNotMatch(sampleCss, banned);
+  assert.doesNotMatch(sampleCss, /\u2014/);
+  const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
+  assert.match(css, /\.sample-doc\{[\s\S]*?max-width:720px/);
+  assert.match(css, /\.step__sample\{/);
 });
