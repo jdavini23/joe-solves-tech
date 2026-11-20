@@ -118,7 +118,45 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   const dollars = html.match(/\$\d[\d,]*/g) || [];
   assert.ok(dollars.includes("$149"));
   for (const amount of dollars) assert.equal(amount, "$149", "Unexpected price " + amount);
-  const other = html.slice(html.indexOf('id="other"'), html.indexOf('id="faq"'));
+  const sectionIds = ["how", "about", "other", "work", "faq", "contact"];
+  const sectionAt = sectionIds.map((id) => html.indexOf('id="' + id + '"'));
+  sectionIds.forEach((id, index) => {
+    assert.ok(sectionAt[index] > (sectionAt[index - 1] || 0), id + " is out of page order");
+  });
+  const header = html.slice(html.indexOf("<header"), html.indexOf("</header>"));
+  assert.deepEqual(
+    Array.from(header.matchAll(/href="#([^"]+)"/g), (match) => match[1]),
+    ["top", "other", "work", "faq"]
+  );
+  assert.match(header, />Email me</);
+  const footer = html.slice(html.indexOf("<footer"), html.indexOf("</footer>"));
+  assert.deepEqual(
+    Array.from(footer.matchAll(/href="#([^"]+)"/g), (match) => match[1]),
+    ["how", "about", "other", "work", "faq"]
+  );
+  const faq = html.slice(html.indexOf('id="faq"'), html.indexOf('id="contact"'));
+  assert.match(faq, /<p class="eyebrow">Questions<\/p>/);
+  assert.deepEqual(
+    Array.from(faq.matchAll(/<summary>\s*([^<\n]+)/g), (match) => match[1].trim()),
+    [
+      "What's in the diagnostic?",
+      "What if I don't want the fix?",
+      "Why email and no calls?",
+      "When do I pay?",
+      "What happens if you disappear?",
+    ]
+  );
+  const faqText = faq.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+  assert.match(faqText, /You keep the diagnostic/);
+  assert.match(faqText, /only comes off the price if you go ahead with A, B, or C/);
+  assert.match(faqText, /nothing gets lost in a call/);
+  assert.match(faqText, /The \$149 is paid up front, before I start the diagnostic/);
+  assert.match(faqText, /half is due up front when you sign the one-page agreement/);
+  assert.match(faqText, /Fixed price, never hourly/);
+  assert.match(faqText, /pick the site up cold/);
+  assert.doesNotMatch(faq, /nine times out of ten/i);
+  assert.doesNotMatch(faq, /only do automation/i);
+  const other = html.slice(html.indexOf('id="other"'), html.indexOf('id="work"'));
   assert.match(other, /Help beyond the website/);
   for (const service of ["Tech support", "A one-off automation", "Set up your whole workflow", "Ongoing support"]) {
     assert.equal((other.match(new RegExp(service, "g")) || []).length, 1, service);
@@ -144,7 +182,8 @@ test("homepage leads with Site Rescue and an email-only process", () => {
     }
     assert.doesNotMatch(href, /20-minute|sales%20call|time%20to%20call/i);
   }
-  assert.equal(rescueSubjects, 2);
+  assert.equal(rescueSubjects, 3);
+  assert.equal(new Set(mailtos.filter((href) => href.includes("subject=Site%20Rescue"))).size, 1);
   assert.equal(otherSubjects, 1);
   const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
   assert.doesNotMatch(css, /\.brand__word\{\s*display:\s*none/);

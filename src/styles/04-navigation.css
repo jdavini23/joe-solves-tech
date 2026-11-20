@@ -52,6 +52,10 @@
 }
 
 .nav__links{ display:flex; align-items:center; gap:var(--space-4); }
+.nav__cta{ flex:none; margin-left:var(--space-2); }
+/* The light pill matches the hero on the gradient. On the frosted bar it
+   would disappear, so it takes the same accent fill as .btn--primary. */
+.nav.is-scrolled .nav__cta{ background:var(--accent-fill); color:var(--on-dark); }
 .nav__link{
   display:inline-flex; align-items:center; justify-content:center; height:44px; min-width:44px;
   padding-inline:var(--space-5);
@@ -70,6 +74,11 @@
   .nav__links{ gap:var(--space-2); }
   .nav__link{ padding-inline:var(--space-3); font-size:var(--t-meta); }
 }
-@media (max-width:339px){
+/* FAQ, then Other work, leave before the logo or the Email me pill would
+   have to drop under a 44px tap target. */
+@media (max-width:719px){
   .nav__link[data-hide-xs]{ display:none; }
+}
+@media (max-width:479px){
+  .nav__link[data-hide-sm]{ display:none; }
 }
