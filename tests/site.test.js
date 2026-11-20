@@ -95,7 +95,7 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.doesNotMatch(h1, /underperforming/);
   assert.match(html, /Site Rescue/);
   assert.match(html, /\$149/);
-  assert.match(html, /comes off the fix/);
+  assert.equal((html.match(/comes off the fix/g) || []).length, 2);
   assert.match(html, /three days/);
   assert.match(html, /Handled entirely by email/);
   assert.match(html, /No sales calls/);
@@ -126,12 +126,21 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="about"'));
   assert.match(how, /Email the website/);
   assert.match(how, /under five minutes/);
-  assert.match(how, /within three days/);
-  assert.match(how, /fixed-price options, A, B, and C/);
-  assert.match(how, /never by the hour/);
+  assert.match(how, /One page, in plain English/);
+  assert.match(how, /Findings ranked by what they cost/);
+  assert.match(how, /The first fix I would do/);
+  assert.match(how, /never hourly/);
   assert.match(how, /50% up front/);
-  assert.match(how, /comes off the fix/);
+  assert.equal((how.match(/comes off the fix/g) || []).length, 1);
   assert.match(how, /You own every account and login from day one/);
+  assert.doesNotMatch(how, /three days/);
+  assert.doesNotMatch(how, /by email/i);
   assert.doesNotMatch(how, /\[placeholder/);
+  const steps = [...how.matchAll(/<article class="step[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  assert.equal(steps.length, 3);
+  for (const step of steps) {
+    const bullets = step.match(/<li>/g) || [];
+    assert.ok(bullets.length >= 1 && bullets.length <= 4, "Each step needs 1 to 4 bullets, got " + bullets.length);
+  }
   for (const amount of how.match(/\$[\d,]+/g) || []) assert.equal(amount, "$149", "How it works quotes " + amount);
 });
