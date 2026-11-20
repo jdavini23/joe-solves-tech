@@ -86,3 +86,39 @@ test("development server exposes production assets and comparison tools", async 
   }
   assert.equal((await fetch("http://127.0.0.1:" + port + "/../README.md")).status, 404);
 });
+
+test("homepage leads with Site Rescue and an email-only process", () => {
+  build();
+  const html = fs.readFileSync(path.join(DIST, "index.html"), "utf8");
+  const h1 = html.match(/<h1[\s\S]*?<\/h1>/)[0];
+  assert.match(h1, /broken/);
+  assert.match(h1, /underperforming/);
+  assert.match(html, /Site Rescue/);
+  assert.match(html, /\$149/);
+  assert.match(html, /credited toward the fix/);
+  assert.match(html, /three days/);
+  assert.match(html, /Handled entirely by email/);
+  assert.match(html, /No sales calls/);
+  assert.match(html, /made-up cleaning company/);
+  assert.match(html, /\[placeholder: what the diagnostic includes\]/);
+  assert.match(html, /\[placeholder: a real Site Rescue before-and-after/);
+  assert.match(html, /valued at 3 million/);
+  assert.doesNotMatch(html, /Free%2020-minute%20call/);
+  assert.doesNotMatch(html, /Best%20time%20to%20call/);
+  assert.doesNotMatch(html, /Twenty minutes on a call/);
+  assert.doesNotMatch(html, /what the call is for/);
+  for (const price of ["$150", "$450", "$1,200", "$600"]) assert.ok(html.includes(">" + price), "Pricing is missing " + price);
+  const mailtos = Array.from(html.matchAll(/href="(mailto:[^"]+)"/g), (match) => match[1]);
+  assert.ok(mailtos.length >= 4, "Expected the Site Rescue mailtos and the plain address");
+  for (const href of mailtos) {
+    assert.match(href, /^mailto:joedavini23@gmail\.com/);
+    if (href.includes("subject=")) assert.match(href, /subject=Site%20Rescue/);
+    assert.doesNotMatch(href, /call/i);
+  }
+  const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
+  assert.doesNotMatch(css, /\.brand__word\{\s*display:\s*none/);
+  const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="about"'));
+  assert.match(how, /Email the website/);
+  assert.match(how, /within three days/);
+  assert.match(how, /credited toward the fix/);
+});
