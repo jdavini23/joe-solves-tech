@@ -4,6 +4,7 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
+const vm = require("node:vm");
 const { build, injectAnalytics, renderTemplate, DIST } = require("../scripts/build");
 const { createDevServer } = require("../scripts/dev-server");
 
@@ -34,7 +35,7 @@ test("build is deterministic and structurally complete", () => {
   const ids = Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, "IDs must be unique");
   for (const [, target] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(target), "Missing fragment target #" + target);
-  for (const asset of ["assets/site.css", "assets/js/main.js", "demo/index.html", "demo/demo.css", "demo/js/main.js", "demo/js/escape.js", "og.png", "favicon.ico", "favicon.svg", "googlea781ebaa82a0d190.html"]) assert.ok(fs.existsSync(path.join(DIST, asset)), "Missing " + asset);
+  for (const asset of ["assets/site.css", "assets/js/main.js", "demo/index.html", "demo/demo.css", "demo/js/main.js", "demo/js/escape.js", "og.png", "favicon.ico", "favicon.svg", "googlea781ebaa82a0d190.html", "robots.txt", "sitemap.xml"]) assert.ok(fs.existsSync(path.join(DIST, asset)), "Missing " + asset);
   assert.match(html, /rel="icon" href="\/favicon\.svg"/);
   const demoHtml = fs.readFileSync(path.join(DIST, "demo/index.html"), "utf8");
   assert.match(demoHtml, /rel="icon" href="\/favicon\.svg"/);
@@ -85,7 +86,7 @@ test("development server exposes production assets and comparison tools", async 
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   context.after(() => new Promise((resolve) => server.close(resolve)));
   const { port } = server.address();
-  for (const route of ["/", "/assets/site.css", "/assets/js/main.js", "/demo/", "/demo/demo.css", "/demo/js/main.js", "/favicon.ico", "/favicon.svg", "/googlea781ebaa82a0d190.html", "/compare/", "/compare/before.html"]) {
+  for (const route of ["/", "/assets/site.css", "/assets/js/main.js", "/demo/", "/demo/demo.css", "/demo/js/main.js", "/favicon.ico", "/favicon.svg", "/googlea781ebaa82a0d190.html", "/robots.txt", "/sitemap.xml", "/compare/", "/compare/before.html"]) {
     const response = await fetch("http://127.0.0.1:" + port + route);
     assert.equal(response.status, 200, route);
   }
@@ -107,7 +108,9 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.match(html, /made-up cleaning company/);
   assert.match(html, /You own every account and login from day one/);
   assert.doesNotMatch(html, /\[placeholder/);
-  assert.match(html, /valued at 3 million/);
+  assert.match(html, /My wife and I ran a company\. We paid a developer/);
+  assert.doesNotMatch(html, /3 million/);
+  assert.doesNotMatch(html, /valued at/);
   assert.doesNotMatch(html, /Free%2020-minute%20call/);
   assert.doesNotMatch(html, /Best%20time%20to%20call/);
   assert.doesNotMatch(html, /Twenty minutes on a call/);
@@ -168,4 +171,72 @@ test("homepage leads with Site Rescue and an email-only process", () => {
     assert.ok(bullets.length >= 1 && bullets.length <= 4, "Each step needs 1 to 4 bullets, got " + bullets.length);
   }
   for (const amount of how.match(/\$[\d,]+/g) || []) assert.equal(amount, "$149", "How it works quotes " + amount);
+});
+
+test("build publishes robots.txt and sitemap.xml", () => {
+  build();
+  const robots = fs.readFileSync(path.join(DIST, "robots.txt"), "utf8");
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.match(robots, /^Allow: \/$/m);
+  assert.match(robots, /^Sitemap: https:\/\/joe-solves-tech\.vercel\.app\/sitemap\.xml$/m);
+  const sitemap = fs.readFileSync(path.join(DIST, "sitemap.xml"), "utf8");
+  const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g), (match) => match[1]);
+  assert.deepEqual(locs, [
+    "https://joe-solves-tech.vercel.app/",
+    "https://joe-solves-tech.vercel.app/demo/"
+  ]);
+});
+
+test("mailto clicks record contact_cta_click with the subject", () => {
+  const events = [];
+  const listeners = [];
+  const context = vm.createContext({
+    URLSearchParams,
+    window: {
+      gtag(command, name, parameters) { events.push({ command, name, parameters }); }
+    },
+    document: {
+      addEventListener(type, handler) { listeners.push({ type, handler }); }
+    }
+  });
+  const source = fs.readFileSync(path.join(__dirname, "../src/scripts/analytics.js"), "utf8")
+    .replace("export function initAnalytics", "function initAnalytics");
+  vm.runInContext(source + "\ninitAnalytics();", context);
+  assert.equal(listeners.length, 1);
+
+  function click(href, text, sectionId) {
+    const link = {
+      getAttribute(name) { return name === "href" ? href : null; },
+      textContent: text,
+      closest(selector) {
+        if (selector.includes("section")) return { id: sectionId, tagName: "SECTION" };
+        return null;
+      }
+    };
+    listeners[0].handler({
+      target: {
+        closest(selector) { return selector === "a[href]" ? link : null; }
+      }
+    });
+  }
+
+  click("mailto:joedavini23@gmail.com?subject=Site%20Rescue&body=Hi", "Email me about Site Rescue", "contact");
+  click("mailto:joedavini23@gmail.com?subject=Other%20work&body=Hi", "Email me", "other");
+  click("mailto:joedavini23@gmail.com", "joedavini23@gmail.com", "contact");
+  click("#contact", "Get in touch", "nav");
+  click("#work", "Work", "nav");
+
+  const clicks = events.filter((event) => event.name === "contact_cta_click");
+  const leads = events.filter((event) => event.name === "generate_lead");
+  assert.deepEqual(clicks.map((event) => event.parameters.mailto_subject), ["Site Rescue", "Other work", ""]);
+  assert.deepEqual(clicks.map((event) => event.parameters.link_location), ["contact", "other", "contact"]);
+  assert.equal(clicks[0].parameters.link_text, "Email me about Site Rescue");
+  assert.equal(leads.length, 3);
+  assert.equal(leads[0].parameters.method, "email");
+  assert.equal("mailto_subject" in leads[0].parameters, false);
+  assert.equal(events.length, 6);
+
+  context.window = {};
+  click("mailto:joedavini23@gmail.com?subject=Site%20Rescue", "Email me about Site Rescue", "contact");
+  assert.equal(events.length, 6);
 });

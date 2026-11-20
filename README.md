@@ -70,10 +70,11 @@ For a local production-style check, run:
 GA_MEASUREMENT_ID=G-XXXXXXXXXX npm run build
 ```
 
-In addition to GA4's automatic page views, the landing page records
-`contact_cta_click` when a visitor opens the contact section and the recommended
-`generate_lead` event when they click an email link. No analytics requests are
-made by ordinary local builds without the environment variable.
+Along with GA4's automatic page views, the landing page records
+`contact_cta_click` when a visitor clicks an email link. The event includes
+the mailto subject. The same click also sends the recommended `generate_lead`
+event. Ordinary local builds without the environment variable make no
+analytics requests.
 
 ## Status
 

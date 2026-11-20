@@ -7,6 +7,8 @@
 !README.md
 !package.json
 !vercel.json
+!robots.txt
+!sitemap.xml
 !src/**
 !scripts/**
 !tests/**
