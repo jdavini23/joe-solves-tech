@@ -78,5 +78,6 @@ made by ordinary local builds without the environment variable.
 ## Status
 
 Early. The three project cards are labelled example builds rather than client
-work, pricing is provisional, and the reviews section remains an intentional
-empty state until there is something real to publish.
+work, and the reviews section remains an intentional empty state until there
+is something real to publish. Site Rescue is $149. The other jobs are listed
+without prices.

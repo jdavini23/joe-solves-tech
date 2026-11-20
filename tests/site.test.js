@@ -31,7 +31,6 @@ test("build is deterministic and structurally complete", () => {
   assert.match(html, /<meta name="google-site-verification" content="SS6mQtMWEG7Ha2XUVj7lNdXq0fzernp1-D0n4_Y9nBs">/);
   assert.match(html, /document\.documentElement\.className = "js"/);
   assert.match(html, /<script type="module" src="\/assets\/js\/main\.js"><\/script>/);
-  for (const price of ["$150", "$450", "$1,200", "$600"]) assert.ok(html.includes(">" + price), "Pricing is missing " + price);
   const ids = Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, "IDs must be unique");
   for (const [, target] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(target), "Missing fragment target #" + target);
@@ -113,22 +112,42 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.doesNotMatch(html, /Best%20time%20to%20call/);
   assert.doesNotMatch(html, /Twenty minutes on a call/);
   assert.doesNotMatch(html, /what the call is for/);
-  for (const price of ["$150", "$450", "$1,200", "$600"]) assert.ok(html.includes(">" + price), "Pricing is missing " + price);
+  const dollars = html.match(/\$\d[\d,]*/g) || [];
+  assert.ok(dollars.includes("$149"));
+  for (const amount of dollars) assert.equal(amount, "$149", "Unexpected price " + amount);
+  const other = html.slice(html.indexOf('id="other"'), html.indexOf('id="faq"'));
+  assert.match(other, /Help beyond the website/);
+  for (const service of ["Tech support", "A one-off automation", "Set up your whole workflow", "Ongoing support"]) {
+    assert.equal((other.match(new RegExp(service, "g")) || []).length, 1, service);
+  }
+  assert.doesNotMatch(other, /\$|tier__|Start here|per issue|\/mo/);
+  assert.doesNotMatch(html, />Pricing</);
   const mailtos = Array.from(html.matchAll(/href="(mailto:[^"]+)"/g), (match) => match[1]);
   assert.ok(mailtos.length >= 4, "Expected the Site Rescue mailtos and the plain address");
+  let rescueSubjects = 0;
+  let otherSubjects = 0;
   for (const href of mailtos) {
     assert.match(href, /^mailto:joedavini23@gmail\.com/);
-    if (href.includes("subject=")) {
-      assert.match(href, /subject=Site%20Rescue/);
+    if (href.includes("subject=Site%20Rescue")) {
+      rescueSubjects += 1;
       const body = decodeURIComponent(href.split("body=")[1] || "");
       for (const line of ["Business name:", "Website:", "What you sell:", "The one thing bugging you:", "What you want to happen:", "What you have tried:", "Rough budget:", "Deadline:"]) {
         assert.ok(body.includes(line), "Mailto template is missing " + line);
       }
+    } else if (href.includes("subject=")) {
+      otherSubjects += 1;
+      assert.match(href, /subject=Other%20work/);
+      assert.doesNotMatch(href, /Site%20Rescue/);
     }
     assert.doesNotMatch(href, /20-minute|sales%20call|time%20to%20call/i);
   }
+  assert.equal(rescueSubjects, 2);
+  assert.equal(otherSubjects, 1);
   const css = fs.readFileSync(path.join(DIST, "assets", "site.css"), "utf8");
   assert.doesNotMatch(css, /\.brand__word\{\s*display:\s*none/);
+  assert.doesNotMatch(css, /\.tier__price|\.tiers\{|\.fixit\{|\.pricing__cta|\.tick /);
+  const reveals = fs.readFileSync(path.join(DIST, "assets", "js", "reveals.js"), "utf8");
+  assert.doesNotMatch(reveals, /\.tier/);
   const how = html.slice(html.indexOf('id="how"'), html.indexOf('id="about"'));
   assert.match(how, /Email the website/);
   assert.match(how, /under five minutes/);

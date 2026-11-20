@@ -16,9 +16,7 @@
   .js .reveal{ transform:none; transition:opacity 300ms linear; }
   .btn:hover,.card:hover,.card:focus-within{ transform:none; }
   .card:hover .card__link svg{ transform:none; }
-  /* everything that draws arrives at its resting state instead */
-  .js .tick path{ stroke-dashoffset:0 !important; transition:none; }
   .btn--sparkle::after{ display:none; }
-  .step:hover,.tier:hover{ transform:none; }
+  .step:hover{ transform:none; }
   *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; }
 }
