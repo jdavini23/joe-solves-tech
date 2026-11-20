@@ -116,8 +116,8 @@ test("homepage leads with Site Rescue and an email-only process", () => {
   assert.ok(dollars.includes("$149"));
   for (const amount of dollars) assert.equal(amount, "$149", "Unexpected price " + amount);
   const other = html.slice(html.indexOf('id="other"'), html.indexOf('id="faq"'));
-  assert.match(other, /Other things I do/);
-  for (const service of ["Something broken right now", "One thing", "The week", "On call"]) {
+  assert.match(other, /Help beyond the website/);
+  for (const service of ["Tech support", "A one-off automation", "Set up your whole workflow", "Ongoing support"]) {
     assert.equal((other.match(new RegExp(service, "g")) || []).length, 1, service);
   }
   assert.doesNotMatch(other, /\$|tier__|Start here|per issue|\/mo/);
